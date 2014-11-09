@@ -1,0 +1,1 @@
+CALL C:\solfware\apache-tomcat-7.0.56\bin\startup.bat

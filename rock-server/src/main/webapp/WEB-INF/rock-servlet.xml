@@ -9,9 +9,7 @@
 
 	<context:annotation-config />
 	
-	<context:component-scan base-package="com.taobao.metacenter"/>
-	
-	<import resource="classpath:scan-job.xml" />
+	<context:component-scan base-package="com.nd.rock"/>
 	
 	<bean id="servletContext"
 		class="org.springframework.web.context.support.ServletContextFactoryBean" />
@@ -24,7 +22,7 @@
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="interceptors">
 			<list>
-				<bean class="com.taobao.metacenter.interceptor.BaseVarInterceptor" />
+				<bean class="com.nd.rock.interceptor.BaseVarInterceptor" />
 			</list>
 		</property>
 	</bean>

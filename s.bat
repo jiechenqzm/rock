@@ -1,0 +1,1 @@
+CALL ./rock-server/s.bat

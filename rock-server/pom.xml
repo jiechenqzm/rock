@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.nd.rock</groupId>
@@ -8,7 +8,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	</parent>
 
 	<artifactId>rock-server</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>rock-server v${project.version}</name>
 
 	<properties>
@@ -31,10 +31,21 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		
+		<dependency>
+		  <groupId>org.slf4j</groupId>
+		  <artifactId>slf4j-log4j13</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
+		</dependency>
+		<dependency>
+		  <groupId>javax.servlet</groupId>
+		  <artifactId>servlet-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -43,7 +54,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>mc</finalName>
+		<finalName>rock</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -59,37 +70,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<configuration>
 					<webResources>
 						<resource>
-							<directory>src/main/resources</directory>
+							<directory>src/main/webapp/WEB-INF</directory>
 							<targetPath>WEB-INF/classes</targetPath>
 							<includes>
-								<include>*.properties</include>
-								<include>scan-job.xml</include>
+								<include>*</include>
 							</includes>
 						</resource>
-						<resource>
-							<directory>src/main/resources/${package.environment}</directory>
-							<targetPath>WEB-INF/classes</targetPath>
-							<includes>
-								<include>application-context.xml</include>
-							</includes>
-						</resource>
-						<resource>
-							<directory>src/main/resources/${package.environment}</directory>
-							<targetPath>WEB-INF</targetPath>
-							<includes>
-								<include>web.xml</include>
-							</includes>
-						</resource>
-                        <resource>
-                            <directory>src/main/resources/${package.environment}</directory>
-                            <includes>
-                                <include>env.jsp</include>
-                                <include>index.jsp</include>
-                                <include>left.jsp</include>
-                                <include>permission_left.jsp</include>
-                            </includes>
-                        </resource>
-                        
 					</webResources>
 				</configuration>
 			</plugin>
@@ -103,33 +89,4 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			</plugin>
 		</plugins>
 	</build>
-	<profiles>
-		<profile>
-			<id>daily</id>
-			<build>
-				<finalName>mc-daily</finalName>
-			</build>
-			<properties>
-				<package.environment>daily</package.environment>
-			</properties>
-		</profile>
-		<profile>
-			<id>online</id>
-			<build>
-				<finalName>mc-online</finalName>
-			</build>
-			<properties>
-				<package.environment>online</package.environment>
-			</properties>
-		</profile>
-		<profile>
-			<id>aliyun</id>
-			<build>
-				<finalName>mc-aliyun</finalName>
-			</build>
-			<properties>
-				<package.environment>aliyun</package.environment>
-			</properties>
-		</profile>
-	</profiles>
 </project>
