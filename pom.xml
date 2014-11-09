@@ -15,7 +15,6 @@
 		<module>rock-server</module>
 	</modules>
 
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
