@@ -14,7 +14,7 @@
 
 	<context:annotation-config />
 	
-	<bean id="metaServerApi" class="com.taobao.metacenter.connect.MetaServerApiConnect"/>
+	<!-- <bean id="metaServerApi" class="com.taobao.metacenter.connect.MetaServerApiConnect"/>
 
 	<bean id="dataSource" class="com.taobao.tddl.jdbc.group.TGroupDataSource" init-method="init">
 		<property name="appName" value="METADATA_CENTER_APP" />
@@ -82,7 +82,7 @@
 	</bean>
 
 
-	<!-- 库表扫描逻辑使用 -->
+	库表扫描逻辑使用
 	<bean id="diamondEnvs" class="java.util.HashMap">
 		<constructor-arg>
 			<map>
@@ -113,5 +113,5 @@
 				<entry key="ALIYUN_DAILY" value="10.232.10.36" />
 			</map>
 		</constructor-arg>
-	</bean>
+	</bean> -->
 </beans>
