@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	default-autowire="byName">
+
+	<context:annotation-config />
+	
+	<bean id="metaServerApi" class="com.taobao.metacenter.connect.MetaServerApiConnect"/>
+
+	<bean id="dataSource" class="com.taobao.tddl.jdbc.group.TGroupDataSource" init-method="init">
+		<property name="appName" value="METADATA_CENTER_APP" />
+		<property name="dbGroupKey" value="METADATA_CENTER_GROUP" />
+	</bean>
+
+	<bean id="dailyDiamondDataSource" class="com.taobao.tddl.jdbc.group.TGroupDataSource" init-method="init">
+		<property name="appName" value="METADATA_CENTER_APP" />
+		<property name="dbGroupKey" value="DIAMOND_GROUP11" />
+	</bean>
+
+	<bean id="perfDiamondDataSource" class="com.taobao.tddl.jdbc.group.TGroupDataSource" init-method="init">
+		<property name="appName" value="METADATA_CENTER_APP" />
+		<property name="dbGroupKey" value="DIAMOND_PERF_GROUP" />
+	</bean>
+	
+	<bean id="aliyunDiamondDataSource" class="com.taobao.tddl.jdbc.group.TGroupDataSource" init-method="init">
+		<property name="appName" value="METADATA_CENTER_APP" />
+		<property name="dbGroupKey" value="DIAMOND_ALIYUN_GROUP" />
+	</bean>
+
+	<bean id="idbDatasource" class="com.taobao.tddl.jdbc.group.TGroupDataSource" init-method="init">
+		<property name="appName" value="METADATA_CENTER_APP" />
+		<property name="dbGroupKey" value="EMDB_GROUP" />
+	</bean>
+
+	<bean id="idbTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="byName">
+		<property name="dataSource">
+			<ref bean="idbDatasource" />
+		</property>
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="byName">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="diamondDataSources" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="DAILY">
+					<bean id="dailyDiamondTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="byName">
+						<property name="dataSource">
+							<ref bean="dailyDiamondDataSource" />
+						</property>
+					</bean>
+				</entry>
+				<entry key="PERFORMANCE">
+					<bean id="perfDiamondTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="byName">
+						<property name="dataSource">
+							<ref bean="perfDiamondDataSource" />
+						</property>
+					</bean>
+				</entry>
+				<entry key="ALIYUN_DAILY">
+					<bean id="aliyunDiamondTemplate" class="org.springframework.jdbc.core.JdbcTemplate" autowire="byName">
+						<property name="dataSource">
+							<ref bean="aliyunDiamondDataSource" />
+						</property>
+					</bean>
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+
+
+	<!-- 库表扫描逻辑使用 -->
+	<bean id="diamondEnvs" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="DAILY" value="center" />
+				<entry key="PERFORMANCE" value="perf" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="env" class="java.lang.String">
+		<constructor-arg>
+			<value>daily</value>
+		</constructor-arg>
+	</bean>
+	
+	
+    <bean id="needAuth" class="java.lang.Boolean">
+		<constructor-arg>
+			<value>false</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="diamondAddrServers" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="DAILY" value="10.232.16.8" />
+				<entry key="PERFORMANCE" value="10.232.20.205" />
+				<entry key="ALIYUN_DAILY" value="10.232.10.36" />
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>
