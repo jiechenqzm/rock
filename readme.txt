@@ -1,5 +1,3 @@
 readme please.
 
-update by qzm!
-
-update again.
+update in new computer.
