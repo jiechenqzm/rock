@@ -1,4 +1,4 @@
-package com.nd.rock.web.controller;
+package com.nd.rock.server.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

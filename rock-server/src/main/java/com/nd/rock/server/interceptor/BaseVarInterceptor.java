@@ -1,4 +1,4 @@
-package com.nd.rock.interceptor;
+package com.nd.rock.server.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
