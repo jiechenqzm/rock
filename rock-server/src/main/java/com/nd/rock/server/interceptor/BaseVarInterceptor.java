@@ -3,14 +3,12 @@ package com.nd.rock.server.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 
 public class BaseVarInterceptor extends HandlerInterceptorAdapter {
 
-    private static Logger logger = LoggerFactory.getLogger(BaseVarInterceptor.class);
+//    private static Logger logger = LoggerFactory.getLogger(BaseVarInterceptor.class);
 
 
     @Override
