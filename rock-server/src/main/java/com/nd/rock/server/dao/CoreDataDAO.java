@@ -9,7 +9,7 @@ public interface CoreDataDAO {
 	
 	public int insert(CoreDataIn dataIn);
 	
-	public int update(String group, String dataId, String value);
+	public int update(String group, String dataId, String oriVersion, String newValue);
 	
 	public int delete(String group, String dataId);
 	

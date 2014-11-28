@@ -58,54 +58,55 @@ public class CoreDataIn {
 		return gmt_modified;
 	}
 
-	public static class DataInBuilder {
+	public static class CoreDataBuilder {
 		private long id;
 		private String group;
 		private String dataId;
 		private long version;
 		private String value;
-		private Date gmt_create;
-		private Date gmt_modified;
+		private Date gmtCreate;
+		private Date gmtModified;
 
 		public CoreDataIn build() {
 			return new CoreDataIn(id, group, dataId, version, value,
-					gmt_create, gmt_modified);
+					gmtCreate, gmtModified);
 		}
 
-		public DataInBuilder setId(long id) {
+		public CoreDataBuilder setId(long id) {
 			this.id = id;
 			return this;
 		}
 
-		public DataInBuilder setGroup(String group) {
+		public CoreDataBuilder setGroup(String group) {
 			this.group = group;
 			return this;
 		}
 
-		public DataInBuilder setDataId(String dataId) {
+		public CoreDataBuilder setDataId(String dataId) {
 			this.dataId = dataId;
 			return this;
 		}
 
-		public DataInBuilder setValue(String value) {
+		public CoreDataBuilder setValue(String value) {
 			this.value = value;
 			return this;
 		}
 
-		public DataInBuilder setVersion(long version) {
+		public CoreDataBuilder setVersion(long version) {
 			this.version = version;
 			return this;
 		}
 
-		public DataInBuilder setGmt_create(Date gmt_create) {
-			this.gmt_create = gmt_create;
+		public CoreDataBuilder setGmtCreate(Date gmtCreate) {
+			this.gmtCreate = gmtCreate;
 			return this;
 		}
 
-		public DataInBuilder setGmt_modified(Date gmt_modified) {
-			this.gmt_modified = gmt_modified;
+		public CoreDataBuilder setGmtModified(Date gmtModified) {
+			this.gmtModified = gmtModified;
 			return this;
 		}
+		
 
 	}
 
