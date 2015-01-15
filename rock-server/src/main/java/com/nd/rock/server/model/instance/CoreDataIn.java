@@ -1,4 +1,4 @@
-package com.nd.rock.server.instance;
+package com.nd.rock.server.model.instance;
 
 import java.util.Date;
 
@@ -12,6 +12,8 @@ public class CoreDataIn {
 
 	private final long version;
 
+	private final String summary;
+
 	private final String value;
 
 	private final Date gmt_create;
@@ -19,13 +21,14 @@ public class CoreDataIn {
 	private final Date gmt_modified;
 
 	public CoreDataIn(long id, String group, String dataId,
-			long version, String value, Date gmt_create,
+			long version, String summary, String value, Date gmt_create,
 			Date gmt_modified) {
 		this.id = id;
 		this.group = group;
 		this.dataId = dataId;
 		this.version = version;
 		this.value = value;
+		this.summary = summary;
 		this.gmt_create = gmt_create;
 		this.gmt_modified = gmt_modified;
 	}
@@ -45,6 +48,10 @@ public class CoreDataIn {
 	public long getVersion() {
 		return version;
 	}
+	
+	public String getSummary() {
+		return summary;
+	}
 
 	public String getValue() {
 		return value;
@@ -63,13 +70,14 @@ public class CoreDataIn {
 		private String group;
 		private String dataId;
 		private long version;
+		private String summary;
 		private String value;
 		private Date gmtCreate;
 		private Date gmtModified;
 
 		public CoreDataIn build() {
-			return new CoreDataIn(id, group, dataId, version, value,
-					gmtCreate, gmtModified);
+			return new CoreDataIn(id, group, dataId, version, summary, 
+					value, gmtCreate, gmtModified);
 		}
 
 		public CoreDataBuilder setId(long id) {
@@ -84,6 +92,11 @@ public class CoreDataIn {
 
 		public CoreDataBuilder setDataId(String dataId) {
 			this.dataId = dataId;
+			return this;
+		}
+
+		public CoreDataBuilder setSummary(String summary) {
+			this.summary = summary;
 			return this;
 		}
 
@@ -107,7 +120,6 @@ public class CoreDataIn {
 			return this;
 		}
 		
-
 	}
 
 }

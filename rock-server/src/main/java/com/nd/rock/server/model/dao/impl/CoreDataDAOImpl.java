@@ -1,4 +1,4 @@
-package com.nd.rock.server.dao.impl;
+package com.nd.rock.server.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,14 +13,13 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
-import com.nd.rock.server.dao.CoreDataDAO;
-import com.nd.rock.server.dao.CoreDataDAOCallable;
-import com.nd.rock.server.instance.CoreDataIn;
-import com.nd.rock.server.instance.CoreDataIn.CoreDataBuilder;
+import com.nd.rock.server.model.dao.CoreDataDAO;
+import com.nd.rock.server.model.dao.CoreDataDAOCallable;
+import com.nd.rock.server.model.instance.CoreDataIn;
+import com.nd.rock.server.model.instance.CoreDataIn.CoreDataBuilder;
 
-public class CoreDataDAOImpl extends JdbcDaoSupport implements CoreDataDAO {
+public class CoreDataDAOImpl implements CoreDataDAO {
 
 	@Resource(name = "dataSource")
 	private DataSource dataSource;
@@ -43,8 +42,8 @@ public class CoreDataDAOImpl extends JdbcDaoSupport implements CoreDataDAO {
 
 	@Override
 	public int update(String group, String dataId, String oriVersion,
-			String newValue) {
-		String sql = "update core_data set version = ?, value = ? where group = ? and data_id = ? and version = ?";
+			String newValue, String summary) {
+		String sql = "update core_data set version = ?, summary = ?, value = ? where group = ? and data_id = ? and version = ?";
 		Object[] args = new Object[7];
 		args[0] = oriVersion + 1;
 		args[1] = newValue;
@@ -65,7 +64,7 @@ public class CoreDataDAOImpl extends JdbcDaoSupport implements CoreDataDAO {
 
 	@Override
 	public CoreDataIn query(String group, String dataId) {
-		String sql = "select id, group, data_id, version, value, gmt_create, gmt_modified from core_data where group = ? and data_id = ?";
+		String sql = "select id, group, data_id, version, summary, value, gmt_create, gmt_modified from core_data where group = ? and data_id = ?";
 		Object[] args = new Object[2];
 		args[0] = group;
 		args[1] = dataId;
@@ -76,7 +75,7 @@ public class CoreDataDAOImpl extends JdbcDaoSupport implements CoreDataDAO {
 	public List<CoreDataIn> queryAll(int batchGetNumn,
 			CoreDataDAOCallable callable) {
 
-		String sql = "select id, group, data_id, version, value, gmt_create, gmt_modified from core_data";
+		String sql = "select id, group, data_id, version, summary, value, gmt_create, gmt_modified from core_data";
 		List<CoreDataIn> batchResult = new ArrayList<CoreDataIn>();
 		Connection con = null;
 		PreparedStatement ps = null;
@@ -126,6 +125,7 @@ public class CoreDataDAOImpl extends JdbcDaoSupport implements CoreDataDAO {
 		resultBuilder.setGroup(rs.getString("group"));
 		resultBuilder.setDataId(rs.getString("data_id"));
 		resultBuilder.setVersion(rs.getLong("version"));
+		resultBuilder.setSummary(rs.getString("summary"));
 		resultBuilder.setValue(rs.getString("value"));
 		resultBuilder.setGmtCreate(rs.getDate("gmt_create"));
 		resultBuilder.setGmtModified(rs.getDate("gmt_modified"));

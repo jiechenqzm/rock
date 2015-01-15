@@ -1,4 +1,4 @@
-package com.nd.rock.server.dao;
+package com.nd.rock.server.model.dao;
 
 
 public interface CoreDataDAOConstants {

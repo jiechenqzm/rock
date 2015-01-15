@@ -14,14 +14,14 @@
 
 	<context:annotation-config />
 	
-	
+	<!-- 
 	<bean id="dataSource" class="com.taobao.tddl.jdbc.group.TGroupDataSource" init-method="init">
 		<property name="appName" value="METADATA_CENTER_APP" />
 		<property name="dbGroupKey" value="METADATA_CENTER_GROUP" />
 	</bean>
 	
 	
-	<!-- <bean id="metaServerApi" class="com.taobao.metacenter.connect.MetaServerApiConnect"/>
+	<bean id="metaServerApi" class="com.taobao.metacenter.connect.MetaServerApiConnect"/>
 
 	<bean id="dataSource" class="com.taobao.tddl.jdbc.group.TGroupDataSource" init-method="init">
 		<property name="appName" value="METADATA_CENTER_APP" />

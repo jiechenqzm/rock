@@ -1,4 +1,4 @@
-package com.nd.rock.server.instance;
+package com.nd.rock.server.model.instance;
 
 
 public interface DataConstant {
