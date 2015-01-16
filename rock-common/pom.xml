@@ -12,6 +12,14 @@
 	<packaging>jar</packaging>
 	<name>rock-common v${project.version}</name>
 	<dependencies>
+
+
+		<!-- 日志相关依赖 -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

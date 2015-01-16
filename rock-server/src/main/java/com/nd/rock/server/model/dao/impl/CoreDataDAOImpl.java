@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -21,41 +18,41 @@ import com.nd.rock.server.model.instance.CoreDataIn.CoreDataBuilder;
 
 public class CoreDataDAOImpl implements CoreDataDAO {
 
-	@Resource(name = "dataSource")
-	private DataSource dataSource;
-
 	private JdbcTemplate jdbcTemplate = null;
-
+	
 	@Override
 	public int insert(CoreDataIn dataIn) {
-		String sql = "insert into core_data (id, group, data_id, version, value, gmt_create, gmt_modified) values (?, ?, ?, ?, ?, ?, ?)";
-		Object[] args = new Object[7];
+		String sql = "insert into core_data (`id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified`) values (?, ?, ?, ?, ?, ?, ?, ?)";
+		Object[] args = new Object[8];
 		args[0] = 0l;
 		args[1] = dataIn.getGroup();
 		args[2] = dataIn.getDataId();
 		args[3] = dataIn.getVersion();
-		args[4] = dataIn.getValue();
-		args[5] = new Date();
+		args[4] = dataIn.getSummary();
+		args[5] = dataIn.getValue();
 		args[6] = new Date();
+		args[7] = new Date();
 		return jdbcTemplate.update(sql, args);
 	}
 
 	@Override
-	public int update(String group, String dataId, String oriVersion,
+	public int update(String group, String dataId, long oriVersion,
 			String newValue, String summary) {
-		String sql = "update core_data set version = ?, summary = ?, value = ? where group = ? and data_id = ? and version = ?";
+		String sql = "update core_data set `version` = ?, `summary` = ?, `value` = ?, `gmt_modified` = ? where `group` = ? and `data_id` = ? and `version` = ?";
 		Object[] args = new Object[7];
 		args[0] = oriVersion + 1;
-		args[1] = newValue;
-		args[2] = group;
-		args[3] = dataId;
-		args[4] = newValue;
+		args[1] = summary;
+		args[2] = newValue;
+		args[3] = new Date();
+		args[4] = group;
+		args[5] = dataId;
+		args[6] = newValue;
 		return jdbcTemplate.update(sql, args);
 	}
 
 	@Override
 	public int delete(String group, String dataId) {
-		String sql = "delete from core_data where group = ? and data_id = ?";
+		String sql = "delete from core_data where `group` = ? and `data_id` = ?";
 		Object[] args = new Object[2];
 		args[0] = group;
 		args[1] = dataId;
@@ -64,11 +61,11 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 
 	@Override
 	public CoreDataIn query(String group, String dataId) {
-		String sql = "select id, group, data_id, version, summary, value, gmt_create, gmt_modified from core_data where group = ? and data_id = ?";
+		String sql = "select `id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified` from `core_data` where `group` = ? and `data_id` = ?";
 		Object[] args = new Object[2];
 		args[0] = group;
 		args[1] = dataId;
-		return jdbcTemplate.queryForObject(sql, new CoreDataInMapper());
+		return jdbcTemplate.queryForObject(sql, args, new CoreDataInMapper());
 	}
 
 	@Override
@@ -130,6 +127,10 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 		resultBuilder.setGmtCreate(rs.getDate("gmt_create"));
 		resultBuilder.setGmtModified(rs.getDate("gmt_modified"));
 		return resultBuilder.build();
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 
 }

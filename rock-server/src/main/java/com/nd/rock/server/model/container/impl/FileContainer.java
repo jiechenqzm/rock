@@ -11,7 +11,7 @@ import com.nd.rock.common.file.PathFactory;
 import com.nd.rock.common.file.impl.DefaultPathFactory;
 import com.nd.rock.server.model.container.DataContainer;
 
-public class FileContainerImpl implements DataContainer {
+public class FileContainer implements DataContainer {
 	
 	private static final String CHARACTOR = "UTF-8";
 
