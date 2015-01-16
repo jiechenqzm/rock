@@ -61,7 +61,7 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 
 	@Override
 	public CoreDataIn query(String group, String dataId) {
-		String sql = "select `id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified` from `core_data` where `group` = ? and `data_id` = ?";
+		String sql = "select `id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified` from core_data where `group` = ? and `data_id` = ?";
 		Object[] args = new Object[2];
 		args[0] = group;
 		args[1] = dataId;
