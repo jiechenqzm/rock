@@ -107,13 +107,20 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 
 		return null;
 	}
+	
+	@Override
+	public List<CoreDataIn> fuzzyQuery(String group, String fuzzyDataId) {
+		String sql = "select `id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified` from core_data where `group` = ? and `data_id` like ?";
+		Object[] args = new Object[2];
+		args[0] = group;
+		args[1] = fuzzyDataId;
+		return jdbcTemplate.query(sql, args, new CoreDataInMapper());
+	}
 
 	protected class CoreDataInMapper implements RowMapper<CoreDataIn> {
-
 		public CoreDataIn mapRow(ResultSet rs, int rowNum) throws SQLException {
 			return buildCoreDataIn(rs);
 		}
-
 	}
 
 	private CoreDataIn buildCoreDataIn(ResultSet rs) throws SQLException {

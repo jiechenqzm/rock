@@ -17,4 +17,6 @@ public interface CoreDataDAO {
 	
 	public List<CoreDataIn> queryAll(int batchGetNumn, CoreDataDAOCallable callable);
 	
+	public List<CoreDataIn> fuzzyQuery(String group, String fuzzyDataId);
+
 }

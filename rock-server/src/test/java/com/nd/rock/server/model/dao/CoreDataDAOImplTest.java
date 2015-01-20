@@ -1,6 +1,7 @@
 package com.nd.rock.server.model.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -52,6 +53,12 @@ public class CoreDataDAOImplTest {
 		Assert.assertEquals(VALUE, coreDataIn.getValue());
 	}
 
+	@Test
+	public void fuzzyQuery() {
+		List<CoreDataIn> list = coreDataDAO.fuzzyQuery(GROUP, "junit_test_for%");
+		Assert.assertEquals(1, list.size());
+	}
+	
 	@Test
 	public void update() {
 		int effectRow = coreDataDAO.update(GROUP, DATA_ID, 0L, "UPDATE_VALUE",
