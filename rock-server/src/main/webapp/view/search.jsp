@@ -25,6 +25,7 @@
 				<button type="submit" class="btn">搜索</button>
 			</form>
 
+
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -92,39 +93,9 @@
 					</c:choose>
 				</tbody>
 			</table>
-			
-			<div class="pagination text-center">
-				总共:100条
-				<ul>
-					<li>
-						<a href="#">上一页</a>
-					</li>
-					<li>
-						<a href="#">1</a>
-					</li>
-					<li>
-						<a href="#">...</a>
-					</li>
-					<li>
-						<a href="#">2</a>
-					</li>
-					<li>
-						<a href="#" >3</a>
-					</li>
-					<li>
-						<a href="#">4</a>
-					</li>
-					<li>
-						<a href="#">...</a>
-					</li>
-					<li>
-						<a href="#">5</a>
-					</li>
-					<li>
-						<a href="#">下一页</a>
-					</li>
-				</ul>
-			</div>
+
+			<%@ include file="/page.jsp"%>
+
 
 			<!--***********下面的所有内容所有页面通用，请勿修改*********** -->
 			<!--***********下面的所有内容所有页面通用，请勿修改*********** -->

@@ -19,17 +19,15 @@
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
 
-	<!-- 设置请求的拦截器 -->
-	<!--
+	<!-- 设置请求的拦截器，队请求进行通用处理 -->
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="interceptors">
 			<list>
-				<bean class="com.nd.rock.interceptor.BaseVarInterceptor" />
+				<bean class="com.nd.rock.server.view.interceptor.BaseVarInterceptor" />
 			</list>
 		</property>
 	</bean>
-	-->
 
 	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
 	<bean

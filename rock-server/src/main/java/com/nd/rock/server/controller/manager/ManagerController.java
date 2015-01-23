@@ -37,12 +37,13 @@ public class ManagerController {
 	public String viewSearch(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
-			@RequestParam(value = "pageSize", required = false, defaultValue = "20") int pageSize,
+			@RequestParam(value = "pageNo", required = false, defaultValue = "7") int pageNo,
+			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int pageSize,
 			
 			@RequestParam(value = "group", required = false, defaultValue = "DEFAULT_GROUP") String group,
 			@RequestParam(value = "dataId", required = false, defaultValue = "%") String dataId,
 			ModelMap modelMap) {
+		questPreHandle(request, response, modelMap);
 
 		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(group, dataId, pageNo, pageSize);
 
@@ -54,5 +55,10 @@ public class ManagerController {
 		modelMap.addAttribute("data", page.getItems());
 		
 		return "search";
+	}
+	
+	private void questPreHandle(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap){
+		modelMap.addAttribute("requestURL", request.getRequestURL().toString());
 	}
 }

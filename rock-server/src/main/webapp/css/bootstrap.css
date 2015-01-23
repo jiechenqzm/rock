@@ -6177,17 +6177,21 @@ a.badge:focus {
 }
 
 .color-white {
-	color: #ffffff;
+	color: white;
 }
 
 .color-green {
-	color: #468847;
+	color: green;
 }
 
 .color-red {
-	color: #333333;
+	color: red;
 }
 
 .color-yellow {
-	color: #333333;
+	color: yellow;
+}
+
+.color-grey {
+	color: grey;
 }
