@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.nd.rock.server.model.instance.CoreDataIn;
-import com.nd.rock.server.view.page.impl.DefaultPageItem;
+import com.nd.rock.server.view.page.PageItems;
 
 public class CoreDataDAOImplTest {
 
@@ -59,7 +59,7 @@ public class CoreDataDAOImplTest {
 
 	@Test
 	public void pageFuzzyQuery() {
-		DefaultPageItem<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(GROUP, "junit_test_for", 1, 10);
+		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(GROUP, "junit_test_for", 1, 10);
 		Assert.assertEquals(1, page.getItems().size());
 	}
 	

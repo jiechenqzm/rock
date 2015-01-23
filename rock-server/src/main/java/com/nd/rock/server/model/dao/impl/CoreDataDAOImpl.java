@@ -17,7 +17,7 @@ import com.nd.rock.server.model.dao.CoreDataDAOCallable;
 import com.nd.rock.server.model.dao.PageQueryProxy;
 import com.nd.rock.server.model.instance.CoreDataIn;
 import com.nd.rock.server.model.instance.CoreDataIn.CoreDataBuilder;
-import com.nd.rock.server.view.page.impl.DefaultPageItem;
+import com.nd.rock.server.view.page.PageItems;
 import com.nd.rock.server.view.page.impl.PageArgs;
 
 public class CoreDataDAOImpl implements CoreDataDAO {
@@ -124,7 +124,7 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 	private static final String QUERY_SQL = "select `id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified` from core_data where `group` = ? and `data_id` like ?";
 
 	@Override
-	public DefaultPageItem<CoreDataIn> pageFuzzyQueryData(String group, String dataId, int pageNo, int pageSize) {
+	public PageItems<CoreDataIn> pageFuzzyQueryData(String group, String dataId, int pageNo, int pageSize) {
 		Object[] args = new Object[2];
 		args[0] = group;
 		args[1] = getFuzzyDataId(dataId);
@@ -132,7 +132,7 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 		PageArgs pageArgs = buildPageArgs(pageNo, pageSize);
 		
 		PageQueryProxy<CoreDataIn> pageQueryProxy = new DefaultPageQueryProxy<>();
-		DefaultPageItem<CoreDataIn> result = pageQueryProxy.pageQuery(this.jdbcTemplate, COUNT_SQL, QUERY_SQL, args, pageArgs, new CoreDataInMapper());
+		PageItems<CoreDataIn> result = pageQueryProxy.pageQuery(this.jdbcTemplate, COUNT_SQL, QUERY_SQL, args, pageArgs, new CoreDataInMapper());
 		return result;
 	}
 

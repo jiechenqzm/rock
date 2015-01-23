@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nd.rock.server.model.dao.CoreDataDAO;
 import com.nd.rock.server.model.instance.CoreDataIn;
-import com.nd.rock.server.view.page.impl.DefaultPageItem;
+import com.nd.rock.server.view.page.PageItems;
 
 @Controller
 @RequestMapping("/manager")
@@ -44,7 +44,7 @@ public class ManagerController {
 			@RequestParam(value = "dataId", required = false, defaultValue = "%") String dataId,
 			ModelMap modelMap) {
 
-		DefaultPageItem<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(group, dataId, pageNo, pageSize);
+		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(group, dataId, pageNo, pageSize);
 
 		modelMap.addAttribute("pageNo", pageNo);
 		modelMap.addAttribute("pageSize", pageSize);

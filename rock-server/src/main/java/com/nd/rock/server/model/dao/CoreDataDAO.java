@@ -3,7 +3,7 @@ package com.nd.rock.server.model.dao;
 import java.util.List;
 
 import com.nd.rock.server.model.instance.CoreDataIn;
-import com.nd.rock.server.view.page.impl.DefaultPageItem;
+import com.nd.rock.server.view.page.PageItems;
 
 
 public interface CoreDataDAO {
@@ -18,6 +18,6 @@ public interface CoreDataDAO {
 	
 	public List<CoreDataIn> queryAll(int batchGetNumn, CoreDataDAOCallable callable);
 	
-	public DefaultPageItem<CoreDataIn> pageFuzzyQueryData(String group, String dataId, int pageNo, int pageSize);
+	public PageItems<CoreDataIn> pageFuzzyQueryData(String group, String dataId, int pageNo, int pageSize);
 
 }

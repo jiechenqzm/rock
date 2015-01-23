@@ -6,12 +6,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.nd.rock.server.model.dao.PageQueryProxy;
+import com.nd.rock.server.view.page.PageItems;
 import com.nd.rock.server.view.page.impl.DefaultPageItem;
 import com.nd.rock.server.view.page.impl.PageArgs;
 
 public class DefaultPageQueryProxy<E> implements PageQueryProxy<E> {
 
-	public DefaultPageItem<E> pageQuery(JdbcTemplate jdbcTemplate, String countSql,
+	public PageItems<E> pageQuery(JdbcTemplate jdbcTemplate, String countSql,
 			String querySql, Object[] args, PageArgs pageArgs,
 			RowMapper<E> rowMapper) {
 
@@ -29,14 +30,12 @@ public class DefaultPageQueryProxy<E> implements PageQueryProxy<E> {
 				+ pageArgs.getPageSize();
 
 		List<E> items = jdbcTemplate.query(realQuerSql, args, rowMapper);
-
-//		DefaultPageItem<E> result = new DefaultPageItem<E>();
-//		result.setItems(items);
-//		result.setTotalCount(totalCount);
-//		result.setPageNo(pageArgs.getPageNo());
-//		result.setPageSize(pageArgs.getPageSize());
-
-		return null;
+		
+		return buildPageItems(items, totalCount, pageArgs.getPageSize(), pageArgs.getPageNo());
+	}
+	
+	public PageItems<E> buildPageItems(List<E> items, int totalCount, int pageSize, int currentPageNo) {
+		return new DefaultPageItem<>(items, totalCount, pageSize, currentPageNo);
 	}
 
 }

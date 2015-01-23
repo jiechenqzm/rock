@@ -13,7 +13,7 @@ public class DefaultPageItem<E> implements PageItems<E> {
 	
 	public DefaultPageItem(List<E> items, int totalCount, int pageSize, int currentPageNo) {
 		this.items = items;
-		
+		this.pageBehavor = new DefaultPageBehavor(totalCount, pageSize, currentPageNo);
 	}
 
 	@Override
