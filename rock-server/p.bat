@@ -1,1 +1,1 @@
-mvn -Dmaven.test.skip package
+mvn clean -Dmaven.test.skip package

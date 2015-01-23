@@ -54,6 +54,14 @@
 		  <artifactId>servlet-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
@@ -80,6 +88,14 @@
 							<targetPath>WEB-INF/classes</targetPath>
 							<includes>
 								<include>*</include>
+							</includes>
+						</resource>
+						<resource>
+							<directory>src/main/resources/</directory>
+							<targetPath>WEB-INF/classes</targetPath>
+							<includes>
+								<include>dao-context.xml</include>
+								<include>application-context.xml</include>
 							</includes>
 						</resource>
 					</webResources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+  
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/' >
+  
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+		 	<param name="ConversionPattern" value="%d{HH:mm:ss,SSS} [%p] %l - %m%n" />
+		</layout>
+		<!--过滤器设置输出的级别  -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="debug" />
+			<param name="levelMax" value="error" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+ 
+	<appender name="rootLogFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/home/${user.name}/logs/rock/root.log" /> 
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" /> 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HH:mm:ss,SSS} [%p] %l - %m%n" />
+		</layout> 
+	</appender>
+	
+	<appender name="serverFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/home/${user.name}/logs/rock/server.log" /> 
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" /> 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HH:mm:ss,SSS} [%p] %l - %m%n" />
+		</layout> 
+	</appender>
+  
+	<!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制-->
+	<logger name="com.nd.rock.server" additivity="false">
+		<level  value ="info"/> 
+		<appender-ref ref="serverFile" />
+	</logger>
+
+	<!-- 根logger的设置-->
+	<root>
+		<level value ="info"/>
+		<appender-ref ref="console"/>
+		<appender-ref ref="rootLogFile"/>	
+	</root>
+</log4j:configuration>

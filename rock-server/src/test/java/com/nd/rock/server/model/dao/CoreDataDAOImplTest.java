@@ -1,7 +1,6 @@
 package com.nd.rock.server.model.dao;
 
 import java.util.Date;
-import java.util.List;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -10,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.nd.rock.server.model.instance.CoreDataIn;
+import com.nd.rock.server.view.page.impl.DefaultPageItem;
 
 public class CoreDataDAOImplTest {
 
@@ -23,8 +23,12 @@ public class CoreDataDAOImplTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		String paths = System.getProperty("java.class.path");
+		for(String path : paths.split(";")) 
+			System.out.println(path);	
+		
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
-				"classpath:application-context.xml");
+				"application-context.xml");
 		coreDataDAO = (CoreDataDAO) applicationContext.getBean("coreDataDAO");
 		System.out.println(coreDataDAO);
 	}
@@ -54,9 +58,9 @@ public class CoreDataDAOImplTest {
 	}
 
 	@Test
-	public void fuzzyQuery() {
-		List<CoreDataIn> list = coreDataDAO.fuzzyQuery(GROUP, "junit_test_for%");
-		Assert.assertEquals(1, list.size());
+	public void pageFuzzyQuery() {
+		DefaultPageItem<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(GROUP, "junit_test_for", 1, 10);
+		Assert.assertEquals(1, page.getItems().size());
 	}
 	
 	@Test

@@ -16,14 +16,6 @@
             </includes>
         </fileSet>
         
-        <fileSet>
-            <directory>src/main/resources/</directory>
-            <outputDirectory>WEB-INF/classes</outputDirectory>
-            <includes>
-            	<include>application-context.xml</include>
-            </includes>
-        </fileSet>
-        
     </fileSets>
 	<!-- <baseDirectory></baseDirectory>
 	<formats>

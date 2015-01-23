@@ -8,18 +8,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.nd.rock.server.model.dao.CoreDataDAO;
 import com.nd.rock.server.model.dao.CoreDataDAOCallable;
+import com.nd.rock.server.model.dao.PageQueryProxy;
 import com.nd.rock.server.model.instance.CoreDataIn;
 import com.nd.rock.server.model.instance.CoreDataIn.CoreDataBuilder;
+import com.nd.rock.server.view.page.impl.DefaultPageItem;
+import com.nd.rock.server.view.page.impl.PageArgs;
 
 public class CoreDataDAOImpl implements CoreDataDAO {
 
 	private JdbcTemplate jdbcTemplate = null;
-	
+
 	@Override
 	public int insert(CoreDataIn dataIn) {
 		String sql = "insert into core_data (`id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified`) values (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -65,7 +69,14 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 		Object[] args = new Object[2];
 		args[0] = group;
 		args[1] = dataId;
-		return jdbcTemplate.queryForObject(sql, args, new CoreDataInMapper());
+		CoreDataIn result = null;
+		try {
+			result = jdbcTemplate.queryForObject(sql, args,
+					new CoreDataInMapper());
+		} catch (EmptyResultDataAccessException e) {
+			// 没有结果则返回null由上层处理
+		}
+		return result;
 	}
 
 	@Override
@@ -91,30 +102,47 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 			}
 			callable.accept(batchResult);
 		} catch (SQLException e) {
-			//TODO log and throw 
+			// TODO log and throw
 		} finally {
 			try {
-				if(rs != null)
+				if (rs != null)
 					rs.close();
-				if(ps != null)
+				if (ps != null)
 					ps.close();
-				if(con != null)
+				if (con != null)
 					con.close();
 			} catch (SQLException e) {
-				//TODO log and throw 
+				// TODO log and throw
 			}
 		}
 
 		return null;
 	}
-	
+
+	private static final String COUNT_SQL = "select count(`id`) from core_data where `group` = ? and `data_id` like ?";
+
+	private static final String QUERY_SQL = "select `id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified` from core_data where `group` = ? and `data_id` like ?";
+
 	@Override
-	public List<CoreDataIn> fuzzyQuery(String group, String fuzzyDataId) {
-		String sql = "select `id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified` from core_data where `group` = ? and `data_id` like ?";
+	public DefaultPageItem<CoreDataIn> pageFuzzyQueryData(String group, String dataId, int pageNo, int pageSize) {
 		Object[] args = new Object[2];
 		args[0] = group;
-		args[1] = fuzzyDataId;
-		return jdbcTemplate.query(sql, args, new CoreDataInMapper());
+		args[1] = getFuzzyDataId(dataId);
+		
+		PageArgs pageArgs = buildPageArgs(pageNo, pageSize);
+		
+		PageQueryProxy<CoreDataIn> pageQueryProxy = new DefaultPageQueryProxy<>();
+		DefaultPageItem<CoreDataIn> result = pageQueryProxy.pageQuery(this.jdbcTemplate, COUNT_SQL, QUERY_SQL, args, pageArgs, new CoreDataInMapper());
+		return result;
+	}
+
+	private String getFuzzyDataId(String dataId) {
+		return dataId.startsWith("%") || dataId.endsWith("%") ? dataId : "%"
+				+ dataId + "%";
+	}
+
+	private PageArgs buildPageArgs(int pageNo, int pageSize) {
+		return new PageArgs(pageNo, pageSize);
 	}
 
 	protected class CoreDataInMapper implements RowMapper<CoreDataIn> {

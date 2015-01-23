@@ -18,6 +18,9 @@
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
+
+	<!-- 设置请求的拦截器 -->
+	<!--
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="interceptors">
@@ -26,6 +29,7 @@
 			</list>
 		</property>
 	</bean>
+	-->
 
 	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
 	<bean

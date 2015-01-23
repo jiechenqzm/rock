@@ -1,1 +1,1 @@
-CALL D:\solfware\apache-tomcat-7.0.37\bin\startup.bat
+CALL D:\solfware\apache-tomcat-7.0.37\bin\debug.bat
