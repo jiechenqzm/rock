@@ -1,5 +1,7 @@
 package com.nd.rock.server.controller.manager;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.nd.rock.server.model.dao.CoreDataDAO;
 import com.nd.rock.server.model.instance.CoreDataIn;
 import com.nd.rock.server.view.page.PageItems;
+import com.nd.rock.server.view.request.RequestPreHandler;
+import com.nd.rock.server.view.request.impl.ParamPreHandler;
+import com.nd.rock.server.view.request.impl.UrlPreHandler;
 
 @Controller
 @RequestMapping("/manager")
@@ -20,6 +25,9 @@ public class ManagerController {
 
 	@Autowired
     private CoreDataDAO coreDataDAO;
+	
+	private RequestPreHandler urlPreHandler = new UrlPreHandler();
+	private RequestPreHandler paramPreHandler = new ParamPreHandler();
 	
 	/**
 	 * 首页
@@ -37,18 +45,18 @@ public class ManagerController {
 	public String viewSearch(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestParam(value = "pageNo", required = false, defaultValue = "7") int pageNo,
-			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int pageSize,
+			@RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
+			@RequestParam(value = "pageSize", required = false, defaultValue = "20") int pageSize,
 			
 			@RequestParam(value = "group", required = false, defaultValue = "DEFAULT_GROUP") String group,
 			@RequestParam(value = "dataId", required = false, defaultValue = "%") String dataId,
 			ModelMap modelMap) {
-		questPreHandle(request, response, modelMap);
+		
+		this.urlPreHandler.handle(request, response, modelMap);
+		this.paramPreHandler.handle(request, response, modelMap);
 
 		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(group, dataId, pageNo, pageSize);
 
-		modelMap.addAttribute("pageNo", pageNo);
-		modelMap.addAttribute("pageSize", pageSize);
 		modelMap.addAttribute("group", group);
 		modelMap.addAttribute("dataId", dataId);
 		modelMap.addAttribute("page", page);
@@ -56,9 +64,5 @@ public class ManagerController {
 		
 		return "search";
 	}
-	
-	private void questPreHandle(HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap){
-		modelMap.addAttribute("requestURL", request.getRequestURL().toString());
-	}
+
 }

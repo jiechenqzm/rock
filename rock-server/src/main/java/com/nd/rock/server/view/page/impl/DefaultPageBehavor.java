@@ -85,7 +85,7 @@ public class DefaultPageBehavor implements PageBehavor {
 		PageNoIterator.Builder builder = new PageNoIterator.Builder();
 
 		fillBuilder(builder,
-				new PageNoNameDecorator(getPreviousPageNo(), "上一页"));
+				new PageNoNameDecorator(getPreviousPageNo(), "<上一页"));
 		fillBuilder(builder, this.getFirstPageNo());
 		fillBuilder(builder, this.getPreviousEllipsis());
 		fillBuilder(builder, this.getPreviousPageNo());
@@ -93,7 +93,7 @@ public class DefaultPageBehavor implements PageBehavor {
 		fillBuilder(builder, this.getNextPageNo());
 		fillBuilder(builder, this.getNextEllipsis());
 		fillBuilder(builder, this.getLastPageNo());
-		fillBuilder(builder, new PageNoNameDecorator(getNextPageNo(), "下一页"));
+		fillBuilder(builder, new PageNoNameDecorator(getNextPageNo(), "下一页>"));
 		return builder.build();
 	}
 
