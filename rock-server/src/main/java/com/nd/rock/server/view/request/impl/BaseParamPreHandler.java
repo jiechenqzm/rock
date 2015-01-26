@@ -7,7 +7,13 @@ import org.springframework.ui.ModelMap;
 
 import com.nd.rock.server.view.request.RequestPreHandler;
 
-public class ParamPreHandler implements RequestPreHandler {
+/**
+ * 
+ * 将当前请求的所有参数信息放到map中
+ * @author QiuZongming
+ *
+ */
+public class BaseParamPreHandler implements RequestPreHandler {
 
 	@Override
 	public void handle(HttpServletRequest request,

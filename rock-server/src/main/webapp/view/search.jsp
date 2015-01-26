@@ -8,13 +8,16 @@
 	<div class="row-fluid">
 		<%@ include file="/left.jsp"%>
 		<div class="span10">
+			<p />
+			<%@ include file="/message.jsp"%>
+
 			<!--***********上面的所有内容所有页面通用，请勿修改***********-->
 			<!--***********上面的所有内容所有页面通用，请勿修改***********-->
 			<!--***********上面的所有内容所有页面通用，请勿修改***********-->
 			<!--***********上面的所有内容所有页面通用，请勿修改***********-->
 			<!--***********上面的所有内容所有页面通用，请勿修改***********-->
 
-			
+			<!--
 			<div class="page-header">
 				<div class="alert alert-success">
 					<button type="button" class="close" data-dismiss="alert">×</button>
@@ -22,16 +25,15 @@
 					根据分组(group)和配置名称(dataId)查询数据，dataId支持在字符前后加'%'进行模糊查询
 				</div>
 			</div>
-			
-			
+			-->
 
-			<form class="form-search" action="../view/search.html"
-				method="get">
-				<input name="group" type="text" class="input-large"
-					placeholder="group,不支持模糊查询" /> <input
-					name="dataId" type="text" class="input-xxlarge"
-					placeholder="dataId,支持在前后添加%进行模糊查询"/>
+			<form class="form-search" action="../view/search.html" method="get">
+				<div class="controls">
+				<input name="group" type="text" class="input width-medium"
+					placeholder="group,不支持模糊查询" /> <input name="dataId" type="text"
+					class="input width-large" placeholder="dataId,支持在前后添加%进行模糊查询" />
 				<button type="submit" class="btn">搜索</button>
+				</div>
 			</form>
 
 			<table class="table table-hover">
@@ -79,12 +81,11 @@
 															<th colspan="2">Value:</th>
 														</tr>
 														<tr>
-														<td colspan="2">
-														<textarea style="width: 100%" rows="10" readonly>${coreData.content}</textarea>
-														</td>
+															<td colspan="2"><textarea style="width: 100%"
+																	rows="10" readonly>${coreData.content}</textarea></td>
 														</tr>
 													</table>
-													
+
 												</div>
 												<div class="modal-footer">
 													<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>

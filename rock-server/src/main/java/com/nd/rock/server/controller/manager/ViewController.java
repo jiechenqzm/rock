@@ -1,32 +1,25 @@
 package com.nd.rock.server.controller.manager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.nd.rock.server.model.dao.CoreDataDAO;
+import com.nd.rock.common.util.QStringUtil;
 import com.nd.rock.server.model.instance.CoreDataIn;
 import com.nd.rock.server.view.page.PageItems;
-import com.nd.rock.server.view.request.RequestPreHandler;
-import com.nd.rock.server.view.request.impl.ParamPreHandler;
-import com.nd.rock.server.view.request.impl.UrlPreHandler;
 
 @Controller
 @RequestMapping("/view")
-public class ViewController {
+public class ViewController extends AbstractController {
 
-	@Autowired
-    private CoreDataDAO coreDataDAO;
-	
-	private RequestPreHandler urlPreHandler = new UrlPreHandler();
-	private RequestPreHandler paramPreHandler = new ParamPreHandler();
-	
 	/**
 	 * 首页
 	 */
@@ -35,7 +28,10 @@ public class ViewController {
 			HttpServletRequest request,ModelMap modelMap) {
 		return "index";
 	}
-
+	
+	private static final String DEFAULT_GROUP = "DEFAULT_GROUP";
+	private static final String DEFAULT_DATA_ID = "%";
+	
 	/**
 	 * 模糊查询数据
 	 */
@@ -45,13 +41,27 @@ public class ViewController {
 			HttpServletResponse response,
 			@RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
 			@RequestParam(value = "pageSize", required = false, defaultValue = "20") int pageSize,
-			
 			@RequestParam(value = "group", required = false, defaultValue = "DEFAULT_GROUP") String group,
 			@RequestParam(value = "dataId", required = false, defaultValue = "%") String dataId,
 			ModelMap modelMap) {
 		
-		this.urlPreHandler.handle(request, response, modelMap);
-		this.paramPreHandler.handle(request, response, modelMap);
+		group = defaultValueIfNull(group, DEFAULT_GROUP);
+		dataId = defaultValueIfNull(dataId, DEFAULT_DATA_ID);
+		
+		/***** 开始>>校验参数合法性的代码*****/
+		Map<String, String> argMap = new HashMap<>();
+		argMap.put("group", group);
+		argMap.put("dataId", dataId);
+		StringBuilder messageBuilder = new StringBuilder();
+		if(super.isArgsEmpty(messageBuilder, argMap)) {
+			super.directToError(response, messageBuilder.toString());
+			return null;
+		}
+		/***** 结束>>校验参数合法性的代码*****/
+		
+		super.urlPreHandler.handle(request, response, modelMap);
+		super.baseParamPreHandler.handle(request, response, modelMap);
+		super.messagePreHandler.handle(request, response, modelMap);
 
 		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(group, dataId, pageNo, pageSize);
 
@@ -61,6 +71,10 @@ public class ViewController {
 		modelMap.addAttribute("data", page.getItems());
 		
 		return "search";
+	}
+	
+	private String defaultValueIfNull(String value, String defaultValue){
+		return QStringUtil.nullOrEmpty(value)? defaultValue : value;
 	}
 
 	/**
@@ -74,17 +88,25 @@ public class ViewController {
 			@RequestParam(value = "dataId", required = true) String dataId,
 			ModelMap modelMap) {
 		
+		/***** 开始>>校验参数合法性的代码*****/
+		Map<String, String> argMap = new HashMap<>();
+		argMap.put("group", group);
+		argMap.put("dataId", dataId);
+		StringBuilder messageBuilder = new StringBuilder();
+		if(super.isArgsEmpty(messageBuilder, argMap)) {
+			super.directToError(response, messageBuilder.toString());
+			return null;
+		}
+		/***** 结束>>校验参数合法性的代码*****/
+		
+		this.messagePreHandler.handle(request, response, modelMap);
 		CoreDataIn data = coreDataDAO.query(group, dataId);
-		
-		modelMap.addAttribute("group", group);
-		modelMap.addAttribute("dataId", dataId);
 		modelMap.addAttribute("data", data);
-		
 		return "detail";
 	}
 	
 	/**
-	 * 精确查询数据
+	 * 查询数据更新
 	 */
 	@RequestMapping(value = "/update.html", method = RequestMethod.GET)
 	public String viewUpdate(
@@ -94,12 +116,44 @@ public class ViewController {
 			@RequestParam(value = "dataId", required = true) String dataId,
 			ModelMap modelMap) {
 		
+		/***** 开始>>校验参数合法性的代码*****/
+		Map<String, String> argMap = new HashMap<>();
+		argMap.put("group", group);
+		argMap.put("dataId", dataId);
+		StringBuilder messageBuilder = new StringBuilder();
+		if(super.isArgsEmpty(messageBuilder, argMap)) {
+			super.directToError(response, messageBuilder.toString());
+			return null;
+		}
+		/***** 结束>>校验参数合法性的代码*****/
+		
+		this.messagePreHandler.handle(request, response, modelMap);
 		CoreDataIn data = coreDataDAO.query(group, dataId);
-		
-		modelMap.addAttribute("group", group);
-		modelMap.addAttribute("dataId", dataId);
 		modelMap.addAttribute("data", data);
-		
 		return "update";
 	}
+	
+	/**
+	 * 新增数据
+	 */
+	@RequestMapping(value = "/add.html", method = RequestMethod.GET)
+	public String viewAdd(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			ModelMap modelMap) {
+		return "add";
+	}
+
+	/**
+	 * 错误信息展示
+	 */
+	@RequestMapping(value = "/error.html", method = RequestMethod.GET)
+	public String viewError(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			ModelMap modelMap) {
+		super.errorMessagePreHandler.handle(request, response, modelMap);
+		return "error";
+	}
+	
 }

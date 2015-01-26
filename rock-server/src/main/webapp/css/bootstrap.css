@@ -6199,3 +6199,25 @@ a.badge:focus {
 .color-black {
 	color: black;
 }
+
+.input {
+  display: block;
+  min-height: 30px;
+}
+
+.width-full {
+  width: 100%;
+}
+
+.width-large {
+  width: 70%;
+}
+
+.width-half {
+  width: 50%;
+}
+
+.width-medium {
+  width: 20%;
+}
+
