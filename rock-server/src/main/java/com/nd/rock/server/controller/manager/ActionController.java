@@ -45,14 +45,14 @@ public class ActionController extends AbstractController {
 		int result = coreDataDAO.update(group, dataId, oriVersion, newContent,
 				CoreDataIn.calculateSummary(newContent));
 		if (result == 0) {
-			directToError(response, "更新数据失败，数据不存在或者被更新！");
+			directToError(response, "Update Failed, Data Not Exist Or Is Updated!");
 			return null;
 		}
 
 		Map<String, String> directToArgs = new HashMap<>();
 		directToArgs.put("group", group);
 		directToArgs.put("dataId", dataId);
-		return directTo(response, "view", "detail.html", directToArgs, "修改成功");
+		return directTo(response, "view", "detail.html", directToArgs, "Update Success.");
 	}
 	
 	@RequestMapping(value = "/doDelete.html", method = RequestMethod.POST)
@@ -76,14 +76,14 @@ public class ActionController extends AbstractController {
 		
 		int result = coreDataDAO.delete(group, dataId, version);
 		if (result == 0) {
-			directToError(response, "删除数据失败，数据不存在或者被更新！");
+			directToError(response, "Delete Failed, Data Not Exist Or Is Updated!");
 			return null;
 		}
 
 		Map<String, String> directToArgs = new HashMap<>();
 		directToArgs.put("group", group);
 		directToArgs.put("dataId", "%");
-		return directTo(response, "view", "search.html", directToArgs, "删除成功");
+		return directTo(response, "view", "search.html", directToArgs, "Delete Success");
 	}
 	
 	@RequestMapping(value = "/doAdd.html", method = RequestMethod.POST)
@@ -108,7 +108,7 @@ public class ActionController extends AbstractController {
 
 		CoreDataIn existIn = coreDataDAO.query(group, dataId);
 		if (existIn != null) {
-			directToError(response, "新增数据失败，数据已存在！");
+			directToError(response, "Add Failed,DataId Is Already Exist.");
 			return null;
 		}
 		
@@ -120,14 +120,14 @@ public class ActionController extends AbstractController {
 		
 		int result = coreDataDAO.insert(builder.build());
 		if (result == 0) {
-			directToError(response, "新增数据失败，插入失败！");
+			directToError(response, "Add Failed,DB Execute Insert Failed.");
 			return null;
 		}
 		
 		Map<String, String> directToArgs = new HashMap<>();
 		directToArgs.put("group", group);
 		directToArgs.put("dataId", dataId);
-		return directTo(response, "view", "detail.html", directToArgs, "新增成功");
+		return directTo(response, "view", "detail.html", directToArgs, "Add Success");
 	}
 	
 }

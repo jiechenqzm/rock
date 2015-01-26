@@ -41,29 +41,17 @@ public class ViewController extends AbstractController {
 			HttpServletResponse response,
 			@RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
 			@RequestParam(value = "pageSize", required = false, defaultValue = "20") int pageSize,
-			@RequestParam(value = "group", required = false, defaultValue = "DEFAULT_GROUP") String group,
-			@RequestParam(value = "dataId", required = false, defaultValue = "%") String dataId,
+			@RequestParam(value = "group", required = false) String group,
+			@RequestParam(value = "dataId", required = false) String dataId,
 			ModelMap modelMap) {
-		
-		group = defaultValueIfNull(group, DEFAULT_GROUP);
-		dataId = defaultValueIfNull(dataId, DEFAULT_DATA_ID);
-		
-		/***** 开始>>校验参数合法性的代码*****/
-		Map<String, String> argMap = new HashMap<>();
-		argMap.put("group", group);
-		argMap.put("dataId", dataId);
-		StringBuilder messageBuilder = new StringBuilder();
-		if(super.isArgsEmpty(messageBuilder, argMap)) {
-			super.directToError(response, messageBuilder.toString());
-			return null;
-		}
-		/***** 结束>>校验参数合法性的代码*****/
 		
 		super.urlPreHandler.handle(request, response, modelMap);
 		super.baseParamPreHandler.handle(request, response, modelMap);
 		super.messagePreHandler.handle(request, response, modelMap);
 
-		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(group, dataId, pageNo, pageSize);
+		String realGroup = defaultValueIfNull(group, DEFAULT_GROUP);
+		String realDataId = defaultValueIfNull(dataId, DEFAULT_DATA_ID);
+		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(realGroup, realDataId, pageNo, pageSize);
 
 		modelMap.addAttribute("group", group);
 		modelMap.addAttribute("dataId", dataId);

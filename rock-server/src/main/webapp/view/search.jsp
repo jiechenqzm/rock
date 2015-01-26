@@ -29,9 +29,9 @@
 
 			<form class="form-search" action="../view/search.html" method="get">
 				<div class="controls">
-				<input name="group" type="text" class="input width-medium"
-					placeholder="group,不支持模糊查询" /> <input name="dataId" type="text"
-					class="input width-large" placeholder="dataId,支持在前后添加%进行模糊查询" />
+				<input name="group" type="text" class="input width-medium" value="${group}"
+					placeholder="group,不支持模糊查询"/> <input name="dataId" type="text"
+					class="input width-large" value="${dataId}" placeholder="dataId,支持在前后添加%进行模糊查询" />
 				<button type="submit" class="btn">搜索</button>
 				</div>
 			</form>
@@ -53,8 +53,8 @@
 								<c:forEach items="${data}" var="coreData" varStatus="status">
 									<tr>
 										<td>${status.count}</td>
-										<td id="dbIp"><c:out value="${coreData.group}" /></td>
-										<td id="dbPort"><c:out value="${coreData.dataId}" /></td>
+										<td><c:out value="${coreData.group}" /></td>
+										<td><c:out value="${coreData.dataId}" /></td>
 										<td><a id="modal-${status.count}"
 											href="#modal-container-${status.count}" data-toggle="modal">查看</a>，
 											修改， 删除

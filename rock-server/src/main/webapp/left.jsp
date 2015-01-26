@@ -7,7 +7,7 @@
 					<a href="../view/search.html">查询数据</a>
 				</li>
 				<li>
-					<a href="#">发布数据</a>
+					<a href="../view/add.html">发布数据</a>
 				</li>
 				<li class="nav-header">
 					订阅查询
