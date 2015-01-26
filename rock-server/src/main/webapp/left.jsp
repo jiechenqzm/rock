@@ -4,7 +4,7 @@
 					配置管理
 				</li>
 				<li>
-					<a href="../manager/search.html">查询数据</a>
+					<a href="../view/search.html">查询数据</a>
 				</li>
 				<li>
 					<a href="#">发布数据</a>

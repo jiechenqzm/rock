@@ -3,7 +3,7 @@
 		<div class="color-white text-left">
 			<h3>
 				&nbsp;&nbsp;
-				<a href="../manager/index.html">配置管理中心</a>
+				<a href="../view/index.html">配置管理中心</a>
 			</h3>
 		</div>
 	</div>

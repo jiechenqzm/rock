@@ -14,17 +14,25 @@
 			<!--***********上面的所有内容所有页面通用，请勿修改***********-->
 			<!--***********上面的所有内容所有页面通用，请勿修改***********-->
 
+			
+			<div class="page-header">
+				<div class="alert alert-success">
+					<button type="button" class="close" data-dismiss="alert">×</button>
+					<h4>数据查询</h4>
+					根据分组(group)和配置名称(dataId)查询数据，dataId支持在字符前后加'%'进行模糊查询
+				</div>
+			</div>
+			
+			
 
-
-			<form class="form-search" action="../manager/search.html"
+			<form class="form-search" action="../view/search.html"
 				method="get">
 				<input name="group" type="text" class="input-large"
-					placeholder="group,不支持模糊查询" value="DEFAULT_GROUP" /> <input
+					placeholder="group,不支持模糊查询" /> <input
 					name="dataId" type="text" class="input-xxlarge"
-					placeholder="dataId,支持在前后添加%进行模糊查询" value="%" />
+					placeholder="dataId,支持在前后添加%进行模糊查询"/>
 				<button type="submit" class="btn">搜索</button>
 			</form>
-
 
 			<table class="table table-hover">
 				<thead>
@@ -72,7 +80,7 @@
 														</tr>
 														<tr>
 														<td colspan="2">
-														<textarea style="width: 100%" rows="10" readonly>${coreData.value}</textarea>
+														<textarea style="width: 100%" rows="10" readonly>${coreData.content}</textarea>
 														</td>
 														</tr>
 													</table>
@@ -95,7 +103,6 @@
 			</table>
 
 			<%@ include file="/page.jsp"%>
-
 
 			<!--***********下面的所有内容所有页面通用，请勿修改*********** -->
 			<!--***********下面的所有内容所有页面通用，请勿修改*********** -->

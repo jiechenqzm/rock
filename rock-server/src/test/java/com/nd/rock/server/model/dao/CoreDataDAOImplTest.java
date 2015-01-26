@@ -17,7 +17,7 @@ public class CoreDataDAOImplTest {
 	private static final String DATA_ID = "junit_test_for_write_function";
 	private static final Long VERSION = 0l;
 	private static final String SUMMARY = "summary";
-	private static final String VALUE = "content";
+	private static final String CONTENT = "content";
 
 	public static CoreDataDAO coreDataDAO = null;
 
@@ -35,7 +35,7 @@ public class CoreDataDAOImplTest {
 
 	@Test
 	public void delete() {
-		long effectRow = coreDataDAO.delete(GROUP, DATA_ID);
+		long effectRow = coreDataDAO.delete(GROUP, DATA_ID, VERSION);
 		Assert.assertEquals(1, effectRow);
 	}
 
@@ -54,7 +54,7 @@ public class CoreDataDAOImplTest {
 		Assert.assertEquals(DATA_ID, coreDataIn.getDataId());
 		Assert.assertEquals(VERSION.doubleValue(), coreDataIn.getVersion(), 0l);
 		Assert.assertEquals(SUMMARY, coreDataIn.getSummary());
-		Assert.assertEquals(VALUE, coreDataIn.getValue());
+		Assert.assertEquals(CONTENT, coreDataIn.getContent());
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class CoreDataDAOImplTest {
 		builder.setDataId(DATA_ID);
 		builder.setSummary(SUMMARY);
 		builder.setVersion(VERSION);
-		builder.setValue(VALUE);
+		builder.setContent(CONTENT);
 		builder.setGmtCreate(new Date());
 		builder.setGmtModified(new Date());
 		return builder.build();

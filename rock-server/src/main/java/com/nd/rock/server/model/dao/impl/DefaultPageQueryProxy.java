@@ -1,5 +1,6 @@
 package com.nd.rock.server.model.dao.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,10 +27,13 @@ public class DefaultPageQueryProxy<E> implements PageQueryProxy<E> {
 
 		int start = (pageArgs.getPageNo() - 1) * pageArgs.getPageSize();
 
-		String realQuerSql = querySql + " limit " + start + ","
-				+ pageArgs.getPageSize();
+		Object[] queryArgs = Arrays.copyOf(args, args.length + 2);
+		queryArgs[args.length] = start;
+		queryArgs[args.length + 1] = pageArgs.getPageSize();
+		
+		String realQuerSql = querySql + " limit ?, ?";
 
-		List<E> items = jdbcTemplate.query(realQuerSql, args, rowMapper);
+		List<E> items = jdbcTemplate.query(realQuerSql, queryArgs, rowMapper);
 		
 		return buildPageItems(items, totalCount, pageArgs.getPageSize(), pageArgs.getPageNo());
 	}

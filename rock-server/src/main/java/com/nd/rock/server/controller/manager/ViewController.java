@@ -1,7 +1,5 @@
 package com.nd.rock.server.controller.manager;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,8 +18,8 @@ import com.nd.rock.server.view.request.impl.ParamPreHandler;
 import com.nd.rock.server.view.request.impl.UrlPreHandler;
 
 @Controller
-@RequestMapping("/manager")
-public class ManagerController {
+@RequestMapping("/view")
+public class ViewController {
 
 	@Autowired
     private CoreDataDAO coreDataDAO;
@@ -39,7 +37,7 @@ public class ManagerController {
 	}
 
 	/**
-	 * 模糊查询APP
+	 * 模糊查询数据
 	 */
 	@RequestMapping(value = "/search.html", method = RequestMethod.GET)
 	public String viewSearch(
@@ -65,4 +63,43 @@ public class ManagerController {
 		return "search";
 	}
 
+	/**
+	 * 精确查询数据
+	 */
+	@RequestMapping(value = "/detail.html", method = RequestMethod.GET)
+	public String viewDetail(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "group", required = true) String group,
+			@RequestParam(value = "dataId", required = true) String dataId,
+			ModelMap modelMap) {
+		
+		CoreDataIn data = coreDataDAO.query(group, dataId);
+		
+		modelMap.addAttribute("group", group);
+		modelMap.addAttribute("dataId", dataId);
+		modelMap.addAttribute("data", data);
+		
+		return "detail";
+	}
+	
+	/**
+	 * 精确查询数据
+	 */
+	@RequestMapping(value = "/update.html", method = RequestMethod.GET)
+	public String viewUpdate(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "group", required = true) String group,
+			@RequestParam(value = "dataId", required = true) String dataId,
+			ModelMap modelMap) {
+		
+		CoreDataIn data = coreDataDAO.query(group, dataId);
+		
+		modelMap.addAttribute("group", group);
+		modelMap.addAttribute("dataId", dataId);
+		modelMap.addAttribute("data", data);
+		
+		return "update";
+	}
 }

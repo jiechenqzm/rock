@@ -26,14 +26,14 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 
 	@Override
 	public int insert(CoreDataIn dataIn) {
-		String sql = "insert into core_data (`id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified`) values (?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into core_data (`id`, `group`, `data_id`, `version`, `summary`, `content`, `gmt_create`, `gmt_modified`) values (?, ?, ?, ?, ?, ?, ?, ?)";
 		Object[] args = new Object[8];
 		args[0] = 0l;
 		args[1] = dataIn.getGroup();
 		args[2] = dataIn.getDataId();
 		args[3] = dataIn.getVersion();
 		args[4] = dataIn.getSummary();
-		args[5] = dataIn.getValue();
+		args[5] = dataIn.getContent();
 		args[6] = new Date();
 		args[7] = new Date();
 		return jdbcTemplate.update(sql, args);
@@ -41,31 +41,32 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 
 	@Override
 	public int update(String group, String dataId, long oriVersion,
-			String newValue, String summary) {
-		String sql = "update core_data set `version` = ?, `summary` = ?, `value` = ?, `gmt_modified` = ? where `group` = ? and `data_id` = ? and `version` = ?";
+			String newContent, String summary) {
+		String sql = "update core_data set `version` = ?, `summary` = ?, `content` = ?, `gmt_modified` = ? where `group` = ? and `data_id` = ? and `version` = ?";
 		Object[] args = new Object[7];
 		args[0] = oriVersion + 1;
 		args[1] = summary;
-		args[2] = newValue;
+		args[2] = newContent;
 		args[3] = new Date();
 		args[4] = group;
 		args[5] = dataId;
-		args[6] = newValue;
+		args[6] = oriVersion;
 		return jdbcTemplate.update(sql, args);
 	}
 
 	@Override
-	public int delete(String group, String dataId) {
-		String sql = "delete from core_data where `group` = ? and `data_id` = ?";
-		Object[] args = new Object[2];
+	public int delete(String group, String dataId, long version) {
+		String sql = "delete from core_data where `group` = ? and `data_id` = ? and `version` = ?";
+		Object[] args = new Object[3];
 		args[0] = group;
 		args[1] = dataId;
+		args[2] = version;
 		return jdbcTemplate.update(sql, args);
 	}
 
 	@Override
 	public CoreDataIn query(String group, String dataId) {
-		String sql = "select `id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified` from core_data where `group` = ? and `data_id` = ?";
+		String sql = "select `id`, `group`, `data_id`, `version`, `summary`, `content`, `gmt_create`, `gmt_modified` from core_data where `group` = ? and `data_id` = ?";
 		Object[] args = new Object[2];
 		args[0] = group;
 		args[1] = dataId;
@@ -121,7 +122,7 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 
 	private static final String COUNT_SQL = "select count(`id`) from core_data where `group` = ? and `data_id` like ?";
 
-	private static final String QUERY_SQL = "select `id`, `group`, `data_id`, `version`, `summary`, `value`, `gmt_create`, `gmt_modified` from core_data where `group` = ? and `data_id` like ?";
+	private static final String QUERY_SQL = "select `id`, `group`, `data_id`, `version`, `summary`, `content`, `gmt_create`, `gmt_modified` from core_data where `group` = ? and `data_id` like ?";
 
 	@Override
 	public PageItems<CoreDataIn> pageFuzzyQueryData(String group, String dataId, int pageNo, int pageSize) {
@@ -158,7 +159,7 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 		resultBuilder.setDataId(rs.getString("data_id"));
 		resultBuilder.setVersion(rs.getLong("version"));
 		resultBuilder.setSummary(rs.getString("summary"));
-		resultBuilder.setValue(rs.getString("value"));
+		resultBuilder.setContent(rs.getString("content"));
 		resultBuilder.setGmtCreate(rs.getDate("gmt_create"));
 		resultBuilder.setGmtModified(rs.getDate("gmt_modified"));
 		return resultBuilder.build();
