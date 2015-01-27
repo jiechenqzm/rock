@@ -32,9 +32,9 @@ public class ActionController extends AbstractController {
 		
 		/***** 开始>>校验参数合法性的代码*****/
 		Map<String, String> argMap = new HashMap<>();
-		argMap.put("group", group);
-		argMap.put("dataId", dataId);
-		argMap.put("newContent", newContent);
+		argMap.put("数据分组(GROUP)", group);
+		argMap.put("数据名称(DATA_ID)", dataId);
+		argMap.put("数据内容(CONTENT)", newContent);
 		StringBuilder messageBuilder = new StringBuilder();
 		if(super.isArgsEmpty(messageBuilder, argMap)) {
 			super.directToError(response, messageBuilder.toString());
@@ -42,17 +42,17 @@ public class ActionController extends AbstractController {
 		}
 		/***** 结束>>校验参数合法性的代码*****/
 		
-		int result = coreDataDAO.update(group, dataId, oriVersion, newContent,
+		int result = coreDataDAO.logicUpdate(group, dataId, oriVersion, newContent,
 				CoreDataIn.calculateSummary(newContent));
 		if (result == 0) {
-			directToError(response, "Update Failed, Data Not Exist Or Is Updated!");
+			directToError(response, "更新数据失败, 数据不存在或者被更新！");
 			return null;
 		}
 
 		Map<String, String> directToArgs = new HashMap<>();
 		directToArgs.put("group", group);
 		directToArgs.put("dataId", dataId);
-		return directTo(response, "view", "detail.html", directToArgs, "Update Success.");
+		return directTo(response, "view", "detail.html", directToArgs, "更新数据成功。");
 	}
 	
 	@RequestMapping(value = "/doDelete.html", method = RequestMethod.POST)
@@ -65,8 +65,8 @@ public class ActionController extends AbstractController {
 		
 		/***** 开始>>校验参数合法性的代码*****/
 		Map<String, String> argMap = new HashMap<>();
-		argMap.put("group", group);
-		argMap.put("dataId", dataId);
+		argMap.put("数据分组(GROUP)", group);
+		argMap.put("数据名称(DATA_ID)", dataId);
 		StringBuilder messageBuilder = new StringBuilder();
 		if(super.isArgsEmpty(messageBuilder, argMap)) {
 			super.directToError(response, messageBuilder.toString());
@@ -74,16 +74,16 @@ public class ActionController extends AbstractController {
 		}
 		/***** 结束>>校验参数合法性的代码*****/
 		
-		int result = coreDataDAO.delete(group, dataId, version);
+		int result = coreDataDAO.logicDelete(group, dataId, version);
 		if (result == 0) {
-			directToError(response, "Delete Failed, Data Not Exist Or Is Updated!");
+			directToError(response, "删除数据失败, 数据不存在或者被更新！");
 			return null;
 		}
 
 		Map<String, String> directToArgs = new HashMap<>();
 		directToArgs.put("group", group);
 		directToArgs.put("dataId", "%");
-		return directTo(response, "view", "search.html", directToArgs, "Delete Success");
+		return directTo(response, "view", "search.html", directToArgs, "删除数据成功。");
 	}
 	
 	@RequestMapping(value = "/doAdd.html", method = RequestMethod.POST)
@@ -96,21 +96,15 @@ public class ActionController extends AbstractController {
 		
 		/***** 开始>>校验参数合法性的代码*****/
 		Map<String, String> argMap = new HashMap<>();
-		argMap.put("group", group);
-		argMap.put("dataId", dataId);
-		argMap.put("content", content);
+		argMap.put("数据分组(GROUP)", group);
+		argMap.put("数据名称(DATA_ID)", dataId);
+		argMap.put("数据内容(CONTENT)", content);
 		StringBuilder messageBuilder = new StringBuilder();
 		if(super.isArgsEmpty(messageBuilder, argMap)) {
 			super.directToError(response, messageBuilder.toString());
 			return null;
 		}
 		/***** 结束>>校验参数合法性的代码*****/
-
-		CoreDataIn existIn = coreDataDAO.query(group, dataId);
-		if (existIn != null) {
-			directToError(response, "Add Failed,DataId Is Already Exist.");
-			return null;
-		}
 		
 		CoreDataIn.CoreDataBuilder builder = new CoreDataIn.CoreDataBuilder();
 		builder.setGroup(group);
@@ -118,16 +112,16 @@ public class ActionController extends AbstractController {
 		builder.setSummary(CoreDataIn.calculateSummary(content));
 		builder.setContent(content);
 		
-		int result = coreDataDAO.insert(builder.build());
+		int result = coreDataDAO.logicInsert(builder.build());
 		if (result == 0) {
-			directToError(response, "Add Failed,DB Execute Insert Failed.");
+			directToError(response, "新增数据失败, 数据已存在或者被更新！");
 			return null;
 		}
 		
 		Map<String, String> directToArgs = new HashMap<>();
-		directToArgs.put("group", group);
-		directToArgs.put("dataId", dataId);
-		return directTo(response, "view", "detail.html", directToArgs, "Add Success");
+		directToArgs.put("数据分组(GROUP)", group);
+		directToArgs.put("数据名称(DATA_ID)", dataId);
+		return directTo(response, "view", "detail.html", directToArgs, "新增数据公共。");
 	}
 	
 }

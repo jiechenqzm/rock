@@ -32,10 +32,16 @@ public class CoreDataDAOImplTest {
 		coreDataDAO = (CoreDataDAO) applicationContext.getBean("coreDataDAO");
 		System.out.println(coreDataDAO);
 	}
+	
+	@Test
+	public void logicDelete() {
+		long effectRow = coreDataDAO.logicDelete(GROUP, DATA_ID, VERSION+1);
+		Assert.assertEquals(1, effectRow);
+	}
 
 	@Test
 	public void delete() {
-		long effectRow = coreDataDAO.delete(GROUP, DATA_ID, VERSION);
+		long effectRow = coreDataDAO.delete(GROUP, DATA_ID, VERSION+2);
 		Assert.assertEquals(1, effectRow);
 	}
 
@@ -52,20 +58,20 @@ public class CoreDataDAOImplTest {
 		Assert.assertNotNull(coreDataIn);
 		Assert.assertEquals(GROUP, coreDataIn.getGroup());
 		Assert.assertEquals(DATA_ID, coreDataIn.getDataId());
-		Assert.assertEquals(VERSION.doubleValue(), coreDataIn.getVersion(), 0l);
-		Assert.assertEquals(SUMMARY, coreDataIn.getSummary());
+		Assert.assertEquals(VERSION.doubleValue(), coreDataIn.getVersion(), 2l);
+//		Assert.assertEquals("NEW_SUMMARY", coreDataIn.getSummary());
 		Assert.assertEquals(CONTENT, coreDataIn.getContent());
 	}
 
 	@Test
 	public void pageFuzzyQuery() {
-		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(GROUP, "junit_test_for", 1, 10);
+		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(GROUP, "junit_test_for", false,  1, 10);
 		Assert.assertEquals(1, page.getItems().size());
 	}
 	
 	@Test
 	public void update() {
-		int effectRow = coreDataDAO.update(GROUP, DATA_ID, 0L, "UPDATE_VALUE",
+		int effectRow = coreDataDAO.logicUpdate(GROUP, DATA_ID, 0L, "UPDATE_VALUE",
 				"NEW_SUMMARY");
 		Assert.assertEquals(1, effectRow);
 	}
@@ -77,6 +83,7 @@ public class CoreDataDAOImplTest {
 		builder.setDataId(DATA_ID);
 		builder.setSummary(SUMMARY);
 		builder.setVersion(VERSION);
+		builder.setDeleted(false);
 		builder.setContent(CONTENT);
 		builder.setGmtCreate(new Date());
 		builder.setGmtModified(new Date());

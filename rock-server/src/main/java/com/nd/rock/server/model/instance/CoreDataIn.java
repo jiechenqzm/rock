@@ -16,6 +16,8 @@ public class CoreDataIn {
 	private final long version;
 
 	private final String summary;
+	
+	private final boolean deleted;
 
 	private final String content;
 
@@ -24,14 +26,15 @@ public class CoreDataIn {
 	private final Date gmtModified;
 
 	public CoreDataIn(long id, String group, String dataId,
-			long version, String summary, String content, Date gmt_create,
+			long version, String summary, boolean deleted, String content, Date gmt_create,
 			Date gmt_modified) {
 		this.id = id;
 		this.group = group;
 		this.dataId = dataId;
 		this.version = version;
-		this.content = content;
 		this.summary = summary;
+		this.deleted = deleted;
+		this.content = content;
 		this.gmtCreate = gmt_create;
 		this.gmtModified = gmt_modified;
 	}
@@ -56,6 +59,10 @@ public class CoreDataIn {
 		return summary;
 	}
 
+	public boolean isDeleted() {
+		return deleted;
+	}
+
 	public String getContent() {
 		return content;
 	}
@@ -74,12 +81,13 @@ public class CoreDataIn {
 		private String dataId;
 		private long version;
 		private String summary;
+		private boolean deleted;
 		private String content;
 		private Date gmtCreate;
 		private Date gmtModified;
 		
 		public CoreDataIn build() {
-			return new CoreDataIn(id, group, dataId, version, summary, 
+			return new CoreDataIn(id, group, dataId, version, summary, deleted, 
 					content, gmtCreate, gmtModified);
 		}
 
@@ -101,6 +109,10 @@ public class CoreDataIn {
 		public CoreDataBuilder setSummary(String summary) {
 			this.summary = summary;
 			return this;
+		}
+		
+		public void setDeleted(boolean deleted) {
+			this.deleted = deleted;
 		}
 
 		public CoreDataBuilder setContent(String content) {

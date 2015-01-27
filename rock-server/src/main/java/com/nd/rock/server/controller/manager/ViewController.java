@@ -51,7 +51,7 @@ public class ViewController extends AbstractController {
 
 		String realGroup = defaultValueIfNull(group, DEFAULT_GROUP);
 		String realDataId = defaultValueIfNull(dataId, DEFAULT_DATA_ID);
-		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(realGroup, realDataId, pageNo, pageSize);
+		PageItems<CoreDataIn> page = coreDataDAO.pageFuzzyQueryData(realGroup, realDataId, false, pageNo, pageSize);
 
 		modelMap.addAttribute("group", group);
 		modelMap.addAttribute("dataId", dataId);
@@ -78,8 +78,8 @@ public class ViewController extends AbstractController {
 		
 		/***** 开始>>校验参数合法性的代码*****/
 		Map<String, String> argMap = new HashMap<>();
-		argMap.put("group", group);
-		argMap.put("dataId", dataId);
+		argMap.put("数据分组(GROUP)", group);
+		argMap.put("数据名称(DATA_ID)", dataId);
 		StringBuilder messageBuilder = new StringBuilder();
 		if(super.isArgsEmpty(messageBuilder, argMap)) {
 			super.directToError(response, messageBuilder.toString());
@@ -106,8 +106,8 @@ public class ViewController extends AbstractController {
 		
 		/***** 开始>>校验参数合法性的代码*****/
 		Map<String, String> argMap = new HashMap<>();
-		argMap.put("group", group);
-		argMap.put("dataId", dataId);
+		argMap.put("数据分组(GROUP)", group);
+		argMap.put("数据名称(DATA_ID)", dataId);
 		StringBuilder messageBuilder = new StringBuilder();
 		if(super.isArgsEmpty(messageBuilder, argMap)) {
 			super.directToError(response, messageBuilder.toString());

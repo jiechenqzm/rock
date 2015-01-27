@@ -57,7 +57,9 @@
 										<td><c:out value="${coreData.dataId}" /></td>
 										<td><a id="modal-${status.count}"
 											href="#modal-container-${status.count}" data-toggle="modal">查看</a>，
-											修改， 删除
+											<a href="../view/detail.html?group=${coreData.group}&dataId=${coreData.dataId}">详情</a>，
+											<a href="../view/update.html?group=${coreData.group}&dataId=${coreData.dataId}">修改/删除</a>
+											
 
 											<div id="modal-container-${status.count}"
 												class="modal hide fade" role="dialog"

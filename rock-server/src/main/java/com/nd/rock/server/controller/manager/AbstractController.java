@@ -14,6 +14,8 @@ import com.nd.rock.server.view.request.RequestPreHandler;
 import com.nd.rock.server.view.request.impl.BaseParamPreHandler;
 import com.nd.rock.server.view.request.impl.ParamNameHandler;
 import com.nd.rock.server.view.request.impl.UrlPreHandler;
+import com.nd.rock.server.view.response.SendRedirectBehavior;
+import com.nd.rock.server.view.response.impl.TranscodingSendRedirect;
 
 public abstract class AbstractController {
 	
@@ -31,7 +33,7 @@ public abstract class AbstractController {
 	protected boolean isArgsEmpty(StringBuilder messageBuilder, Map<String, String> argMap) {
 		for(Map.Entry<String, String> entry : argMap.entrySet()) {
 			if(QStringUtil.nullOrEmpty(entry.getValue())) {
-				messageBuilder.append("'" + entry.getKey() + "' is null");
+				messageBuilder.append("参数 '" + entry.getKey() + "' 不能为空！");
 				return true;
 			}
 		}
@@ -48,10 +50,11 @@ public abstract class AbstractController {
 	protected String directToError(HttpServletResponse response, String errorMessage) {
 		StringBuilder url = buildUrl("view", "error.html", new HashMap<String, String>());
 		appendMessage(url, ERROR_MESSAGE_KEY, errorMessage);
+		SendRedirectBehavior sendRedirectBehavior = new TranscodingSendRedirect(response);
 		try {
-			response.sendRedirect(url.toString());
+			sendRedirectBehavior.sendRedirect(url.toString());
 		} catch (IOException e) {
-			
+			// TODO 
 		}
 		return null;
 	}
@@ -71,9 +74,9 @@ public abstract class AbstractController {
 		if(!QStringUtil.nullOrEmpty(message)) {
 			url = appendMessage(url, MESSAGE_KEY, message);
 		}
-		
+		SendRedirectBehavior sendRedirectBehavior = new TranscodingSendRedirect(response);
 		try {
-			response.sendRedirect(url.toString());
+			sendRedirectBehavior.sendRedirect(url.toString());
 		} catch (IOException e) {
 			// 转向错误页面 directTo
 		}
