@@ -119,8 +119,8 @@ public class ActionController extends AbstractController {
 		}
 		
 		Map<String, String> directToArgs = new HashMap<>();
-		directToArgs.put("数据分组(GROUP)", group);
-		directToArgs.put("数据名称(DATA_ID)", dataId);
+		directToArgs.put("group", group);
+		directToArgs.put("dataId", dataId);
 		return directTo(response, "view", "detail.html", directToArgs, "新增数据公共。");
 	}
 	
