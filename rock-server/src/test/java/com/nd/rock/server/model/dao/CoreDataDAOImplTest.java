@@ -23,9 +23,6 @@ public class CoreDataDAOImplTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		String paths = System.getProperty("java.class.path");
-		for(String path : paths.split(";")) 
-			System.out.println(path);	
 		
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
 				"application-context.xml");

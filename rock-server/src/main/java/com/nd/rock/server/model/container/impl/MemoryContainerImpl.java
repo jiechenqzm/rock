@@ -9,7 +9,6 @@ public class MemoryContainerImpl implements DataContainer {
 
 	private Map<String, HashMap<String, String>> map = null;
 
-
 	@Override
 	public boolean delete(String group, String dataId) {
 		this.map.get(group).remove(dataId);

@@ -30,6 +30,13 @@
 			<param name="ConversionPattern" value="%d{HH:mm:ss,SSS} [%p] %l - %m%n" />
 		</layout> 
 	</appender>
+	<appender name="apiFile" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/home/${user.name}/logs/rock/api.log" /> 
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" /> 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{HH:mm:ss,SSS} [%p] %l - %m%n" />
+		</layout> 
+	</appender>
   
 	<!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制-->
 	<logger name="com.nd.rock.server" additivity="false">

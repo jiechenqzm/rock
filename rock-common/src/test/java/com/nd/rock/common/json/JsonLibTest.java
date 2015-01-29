@@ -10,6 +10,12 @@ import net.sf.json.JSONObject;
 
 import org.junit.Test;
 
+/**
+ * JSON-LIB可以支持二级数据结构类似 Map<String, List<String>>
+ * JSON-LIB可以支持对象引用结构类型 classA.classB
+ * @author QiuZongming
+ *
+ */
 public class JsonLibTest {
 
 	@Test
@@ -25,7 +31,7 @@ public class JsonLibTest {
 	public void fromJson2Bean() {
 		JSONObject jsonObject = JSONObject.fromObject(getString());
 		//如果BeanClass为内部类，则这里会报找不到构造函数的异常
-		BeanClass beanClass = (BeanClass)jsonObject.toBean(jsonObject, BeanClass.class);
+		BeanClass beanClass = (BeanClass)JSONObject.toBean(jsonObject, BeanClass.class);
 		Assert.assertNotNull(beanClass);
 		
 		BeanClass oriBean = getBeanClass();
@@ -33,6 +39,8 @@ public class JsonLibTest {
 		Assert.assertEquals(oriBean.getString(), beanClass.getString());
 		Assert.assertEquals(oriBean.getList().size(), beanClass.getList().size());
 		Assert.assertEquals(oriBean.getMap().size(), beanClass.getMap().size());
+		Assert.assertEquals(oriBean.getListMap().size(), beanClass.getListMap().size());
+		Assert.assertNotNull(beanClass.getInnerClass());
 	}
 	
 	private BeanClass getBeanClass() {
@@ -47,11 +55,24 @@ public class JsonLibTest {
 		map.put("2", "b");
 		beanClass.setList(list);
 		beanClass.setMap(map);
+		Map<String, List<String>> listMap = new HashMap<>();
+		listMap.put("100", list);
+		listMap.put("200", list);
+		listMap.put("300", list);
+		beanClass.setListMap(listMap);
+		
+		BeanClass innerClass = new BeanClass();
+		innerClass.setIntValue(101);
+		innerClass.setString("abc");
+		
+		beanClass.setInnerClass(innerClass);
+		
+		
 		return beanClass;
 	}
 	
 	private String getString() {
-		return "{\"intValue\":100,\"list\":[\"a\",\"b\"],\"map\":{\"2\":\"b\",\"1\":\"aa\"},\"string\":\"string_value\"}";
+		return "{\"innerClass\":{\"innerClass\":null,\"intValue\":101,\"list\":[],\"listMap\":null,\"map\":null,\"string\":\"abc\"},\"intValue\":100,\"list\":[\"a\",\"b\"],\"listMap\":{\"300\":[\"a\",\"b\"],\"200\":[\"a\",\"b\"],\"100\":[\"a\",\"b\"]},\"map\":{\"2\":\"b\",\"1\":\"aa\"},\"string\":\"string_value\"}";
 	}
 
 	

@@ -8,7 +8,7 @@ public interface DataContainer {
 	
 	public String get(String group, String dataId) throws FileNotFoundException,IOException;
 	
-	public boolean update(String group, String dataId, String value) throws IOException;
+	public boolean update(String group, String dataId, String content) throws IOException;
 	
 	public boolean delete(String group, String dataId) throws IOException;
 

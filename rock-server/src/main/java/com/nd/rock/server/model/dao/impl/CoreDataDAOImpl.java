@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -21,6 +21,8 @@ import com.nd.rock.server.view.page.PageItems;
 import com.nd.rock.server.view.page.impl.PageArgs;
 
 public class CoreDataDAOImpl implements CoreDataDAO {
+	
+	private static Logger logger = LoggerFactory.getLogger(CoreDataDAOImpl.class);
 
 	private JdbcTemplate jdbcTemplate = null;
 	
@@ -135,29 +137,20 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 	
 
 	@Override
-	public List<CoreDataIn> queryAll(int batchGetNumn,
-			CoreDataDAOCallable callable) {
-
-		String sql = "select id, group, data_id, version, summary, `deleted`, value, gmt_create, gmt_modified from core_data";
-		List<CoreDataIn> batchResult = new ArrayList<CoreDataIn>();
+	public void logicQueryAll(CoreDataDAOCallable callable) throws SQLException {
+		String sql = "select `id`, `group`, `data_id`, `version`, `summary`, `deleted`, `content`, `gmt_create`, `gmt_modified` from core_data where `deleted` = ?";
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			con = jdbcTemplate.getDataSource().getConnection();
 			ps = con.prepareStatement(sql);
+			ps.setFetchSize(10000);
+			ps.setBoolean(1, false);
 			rs = ps.executeQuery();
-			int rowNum = 0;
 			while (rs.next()) {
-				batchResult.add(buildCoreDataIn(rs));
-				if (++rowNum % 10000 == 0) {
-					callable.accept(batchResult);
-					batchResult.clear();
-				}
+				callable.accept(buildCoreDataIn(rs));
 			}
-			callable.accept(batchResult);
-		} catch (SQLException e) {
-			// TODO log and throw
 		} finally {
 			try {
 				if (rs != null)
@@ -167,11 +160,9 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 				if (con != null)
 					con.close();
 			} catch (SQLException e) {
-				// TODO log and throw
+				logger.error("Execute Close Method Error In ResultSet,PreparedStatement,Connection.");
 			}
 		}
-
-		return null;
 	}
 
 	private static final String COUNT_SQL = "select count(`id`) from core_data where `group` = ? and `data_id` like ? and `deleted` = ?";

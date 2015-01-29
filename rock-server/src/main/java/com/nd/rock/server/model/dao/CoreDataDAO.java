@@ -1,5 +1,6 @@
 package com.nd.rock.server.model.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.nd.rock.server.model.instance.CoreDataIn;
@@ -34,7 +35,7 @@ public interface CoreDataDAO {
 	
 	public CoreDataIn logicQuery(String group, String dataId);
 	
-	public List<CoreDataIn> queryAll(int batchGetNumn, CoreDataDAOCallable callable);
+	public void logicQueryAll(CoreDataDAOCallable callable) throws SQLException;
 	
 	public PageItems<CoreDataIn> pageFuzzyQueryData(String group, String dataId, boolean deleted, int pageNo, int pageSize);
 

@@ -8,6 +8,16 @@ public class BeanClass {
 	private int intValue;
 	private List<String> list;
 	private Map<String, String> map;
+	private Map<String, List<String>> listMap;
+	private BeanClass innerClass = null;
+
+	public Map<String, List<String>> getListMap() {
+		return listMap;
+	}
+
+	public void setListMap(Map<String, List<String>> listMap) {
+		this.listMap = listMap;
+	}
 
 	public String getString() {
 		return string;
@@ -39,5 +49,13 @@ public class BeanClass {
 
 	public void setMap(Map<String, String> map) {
 		this.map = map;
+	}
+
+	public BeanClass getInnerClass() {
+		return innerClass;
+	}
+
+	public void setInnerClass(BeanClass innerClass) {
+		this.innerClass = innerClass;
 	}
 }
