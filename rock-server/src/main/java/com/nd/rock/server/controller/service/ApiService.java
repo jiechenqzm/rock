@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nd.rock.common.net.bean.ResponseBody;
-import com.nd.rock.common.net.bean.impl.DefaultResponseBody;
-import com.nd.rock.common.net.bean.impl.GetContentParam;
-import com.nd.rock.common.net.bean.impl.ReturnContentParam;
+import com.nd.rock.common.net.bean.request.GetContentParam;
+import com.nd.rock.common.net.bean.response.CommonResBody;
+import com.nd.rock.common.net.bean.response.ContentRes;
 import com.nd.rock.server.model.container.DataContainer;
 
 @Controller
@@ -30,7 +30,7 @@ public class ApiService extends AbstractApiController {
 	/**
 	 * 获取数据
 	 */
-	@RequestMapping(value = "/getContent.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/getContent.do", method = RequestMethod.POST)
 	public void doGetContent(HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestParam(value = "param", required = true) String param,
@@ -49,8 +49,8 @@ public class ApiService extends AbstractApiController {
 				resultMap.put(entry.getKey(), groupResultMap);
 			}
 
-			ResponseBody<ReturnContentParam> responseBody = new DefaultResponseBody<>(
-					new ReturnContentParam(resultMap));
+			ResponseBody<ContentRes> responseBody = new CommonResBody<>(
+					new ContentRes(resultMap));
 			doResponse(response, responseBody);
 		} catch (Exception e) {
 			super.doErrorResponse(response, "DoGetContent Error.", e);

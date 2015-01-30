@@ -6,6 +6,6 @@ public interface ResponseBody<T> extends JSONStringAble {
 	
 	public String getMessage();
 	
-	public T getResponseOb();
+	public T getResponseBody();
 
 }

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nd.rock.common.net.bean.JSONStringAble;
-import com.nd.rock.common.net.bean.impl.DefaultResponseBody;
+import com.nd.rock.common.net.bean.response.CommonResBody;
 
 public class AbstractApiController {
 	
@@ -17,7 +17,7 @@ public class AbstractApiController {
 
 	protected void doErrorResponse(ServletResponse response, String message, Exception e){
 		logger.error(message, e);
-		doResponse(response, DefaultResponseBody.fail(message + e.getMessage()));
+		doResponse(response, CommonResBody.fail(message + e.getMessage()));
 	}
 
 	protected void doResponse(ServletResponse response,

@@ -1,9 +1,13 @@
-package com.nd.rock.client.net;
+package com.nd.rock.server.net.http;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+import net.sf.json.JsonConfig;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -12,8 +16,11 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.junit.Test;
 
+import com.nd.rock.common.json.BeanClass;
 import com.nd.rock.common.net.bean.request.GetContentParam;
 import com.nd.rock.common.net.bean.response.CommonResBody;
+import com.nd.rock.common.net.bean.response.ReturnContentRes;
+import com.nd.rock.common.net.bean.response.ContentRes;
 
 public class HttpTest {
 	
@@ -30,16 +37,27 @@ public class HttpTest {
 		param.put("TEST_GROUP", list);
 
 		GetContentParam getContentParam = new GetContentParam(param);
-		CommonResBody<GetContentParam> defaultResponseBody = new CommonResBody<>(getContentParam);
-		
 		
 		HttpClient httpClient = createHttpClient("localhost", 80, 3*1000, 5*60*1000);
 		PostMethod postMethod = new PostMethod("/rock/api/getContent.do");
-		postMethod.setParameter("param", defaultResponseBody.toJSONString());
+		postMethod.setParameter("param", getContentParam.toJSONString());
 		
 		try {
 			String result = realRequest(httpClient, postMethod);
-			System.out.println(result);
+
+			ReturnContentRes response = ReturnContentRes.fromJsonString(result);			
+			
+			ContentRes returnContentParam = response.getResponseBody();
+			
+			
+			Map<String, Map<String, String>> map = returnContentParam.getContent();
+			for(Map.Entry<String, Map<String, String>> entry : map.entrySet()) {
+				for(Map.Entry<String, String> entry2 : entry.getValue().entrySet()) {
+					System.out.println(entry.getKey() + "\t" + entry2.getKey() + "\t" + entry2.getValue());;
+				}
+			}
+			
+			System.out.println(returnContentParam);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,7 +71,7 @@ public class HttpTest {
 				result = postMethod.getResponseBodyAsString(); 
             } else {  
             	postMethod.abort();
-            	String errorMsg = "Comunication Error ! Code >> " + postMethod.getStatusCode();
+            	String errorMsg = "Net Error: " + postMethod.getStatusText() + "! Code >> " + postMethod.getStatusCode();
                 throw new IllegalStateException(errorMsg);
             }
 		} finally {
