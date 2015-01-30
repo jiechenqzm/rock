@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 public class BeanClass {
+	
+	private boolean ok;
 	private String string;
 	private int intValue;
 	private List<String> list;
@@ -57,5 +59,13 @@ public class BeanClass {
 
 	public void setInnerClass(BeanClass innerClass) {
 		this.innerClass = innerClass;
+	}
+
+	public boolean isOk() {
+		return ok;
+	}
+
+	public void setOk(boolean ok) {
+		this.ok = ok;
 	}
 }

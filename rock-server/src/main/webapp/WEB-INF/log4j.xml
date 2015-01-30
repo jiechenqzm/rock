@@ -43,6 +43,11 @@
 		<level  value ="info"/> 
 		<appender-ref ref="serverFile" />
 	</logger>
+	
+	<logger name="apiLog" additivity="false">
+		<level  value ="info"/> 
+		<appender-ref ref="apiFile" />
+	</logger>
 
 	<!-- 根logger的设置-->
 	<root>

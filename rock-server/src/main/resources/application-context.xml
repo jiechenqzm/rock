@@ -17,5 +17,9 @@
 	<import resource="classpath:dao-context.xml"/>
 	
 	<bean id="summaryBehavior" class="com.nd.rock.server.model.summary.MD5Summary"/>
+	
+	<bean id="snapshotFileContainer" class="com.nd.rock.server.model.container.impl.SnapshotFileContainer" init-method="init">
+		<property name="coreDataDAO" ref="coreDataDAO"/>
+	</bean>
 
 </beans>

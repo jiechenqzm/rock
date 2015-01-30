@@ -11,8 +11,6 @@ import com.nd.rock.server.model.container.DataContainer;
 
 public abstract class AbstractFileContainer implements DataContainer {
 	
-//	private static Logger logger = LoggerFactory.getLogger(AbstractFileContainer.class);
-	
 	private static final String CHARACTOR = "UTF-8";
 	
 	@Override
@@ -27,7 +25,7 @@ public abstract class AbstractFileContainer implements DataContainer {
 		String filePath = getFilePath(group, dataId);
 		File file = new File(filePath);
 		if (!file.exists())
-			throw new FileNotFoundException(filePath);
+			return null;
 
         Long filelength = file.length();  
         byte[] filecontent = new byte[filelength.intValue()]; 

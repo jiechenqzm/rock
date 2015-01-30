@@ -23,6 +23,7 @@ public class JsonLibTest {
 		BeanClass beanClass = getBeanClass();
 
 		JSONObject jsonObject = JSONObject.fromObject(beanClass);
+		System.out.println(jsonObject.toString());
 		Assert.assertEquals(getString(), jsonObject.toString());
 
 	}
@@ -35,6 +36,7 @@ public class JsonLibTest {
 		Assert.assertNotNull(beanClass);
 		
 		BeanClass oriBean = getBeanClass();
+		Assert.assertEquals(oriBean.isOk(), beanClass.isOk());
 		Assert.assertEquals(oriBean.getIntValue(), beanClass.getIntValue());
 		Assert.assertEquals(oriBean.getString(), beanClass.getString());
 		Assert.assertEquals(oriBean.getList().size(), beanClass.getList().size());
@@ -45,6 +47,7 @@ public class JsonLibTest {
 	
 	private BeanClass getBeanClass() {
 		BeanClass beanClass = new BeanClass();
+		beanClass.setOk(true);
 		beanClass.setIntValue(100);
 		beanClass.setString("string_value");
 		List<String> list = new ArrayList<>();
@@ -72,7 +75,7 @@ public class JsonLibTest {
 	}
 	
 	private String getString() {
-		return "{\"innerClass\":{\"innerClass\":null,\"intValue\":101,\"list\":[],\"listMap\":null,\"map\":null,\"string\":\"abc\"},\"intValue\":100,\"list\":[\"a\",\"b\"],\"listMap\":{\"300\":[\"a\",\"b\"],\"200\":[\"a\",\"b\"],\"100\":[\"a\",\"b\"]},\"map\":{\"2\":\"b\",\"1\":\"aa\"},\"string\":\"string_value\"}";
+		return "{\"innerClass\":{\"innerClass\":null,\"intValue\":101,\"list\":[],\"listMap\":null,\"map\":null,\"ok\":false,\"string\":\"abc\"},\"intValue\":100,\"list\":[\"a\",\"b\"],\"listMap\":{\"300\":[\"a\",\"b\"],\"200\":[\"a\",\"b\"],\"100\":[\"a\",\"b\"]},\"map\":{\"2\":\"b\",\"1\":\"aa\"},\"ok\":true,\"string\":\"string_value\"}";
 	}
 
 	

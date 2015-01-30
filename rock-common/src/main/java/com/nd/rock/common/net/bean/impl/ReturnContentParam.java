@@ -1,21 +1,24 @@
 package com.nd.rock.common.net.bean.impl;
 
-import java.util.List;
 import java.util.Map;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-public class ReturnContentParam extends AbstractJSONStringAble {
+public class ReturnContentParam {
 
-	private Map<String, List<String>> paramMap = null;
-
-	public Map<String, List<String>> getParamMap() {
-		return paramMap;
+	private Map<String/*group*/, Map<String/*dataId*/, String/*content*/>> content = null;
+	
+	public ReturnContentParam(Map<String, Map<String, String>> content) {
+		this.content = content;
 	}
 
-	public void setParamMap(Map<String, List<String>> paramMap) {
-		this.paramMap = paramMap;
+	public Map<String, Map<String, String>> getContent() {
+		return content;
+	}
+
+	public void setContent(Map<String, Map<String, String>> content) {
+		this.content = content;
 	}
 
 	public static ReturnContentParam fromJsonStr(String jsonStr)

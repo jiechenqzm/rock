@@ -13,12 +13,11 @@ import com.nd.rock.common.net.bean.impl.DefaultResponseBody;
 
 public class AbstractApiController {
 	
-    private static Logger logger = LoggerFactory.getLogger("apiFile");
+    private static Logger logger = LoggerFactory.getLogger("apiLog");
 
-	
 	protected void doErrorResponse(ServletResponse response, String message, Exception e){
 		logger.error(message, e);
-		doResponse(response, DefaultResponseBody.fail(message));
+		doResponse(response, DefaultResponseBody.fail(message + e.getMessage()));
 	}
 
 	protected void doResponse(ServletResponse response,

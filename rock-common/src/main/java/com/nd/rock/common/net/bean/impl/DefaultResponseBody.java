@@ -34,13 +34,12 @@ public class DefaultResponseBody<T> extends AbstractJSONStringAble implements Re
 		return responseBody; 
 	}
 	
-	@Override
-	public boolean ok() {
-		return ok;
-	}
-	
 	public static DefaultResponseBody<Object> fail(String message) {
 		return new DefaultResponseBody<Object>(message);
+	}
+
+	public boolean isOk() {
+		return ok;
 	}
 	
 //	public static GetContentRequestIn fromJsonStr(String jsonStr)

@@ -13,7 +13,6 @@
 	<name>rock-common v${project.version}</name>
 	<dependencies>
 
-
 		<!-- 日志相关依赖 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -23,6 +22,10 @@
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
 			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
 		</dependency>
 
 		<dependency>
