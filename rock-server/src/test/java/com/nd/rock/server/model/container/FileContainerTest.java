@@ -18,8 +18,8 @@ public class FileContainerTest {
 			CoreDataDAO coreDataDAO = (CoreDataDAO) applicationContext.getBean("coreDataDAO");
 			
 			SnapshotFileContainer snapshotFileContainer = new SnapshotFileContainer();
-			snapshotFileContainer.setCoreDataDAO(coreDataDAO);
-			snapshotFileContainer.init();
+//			snapshotFileContainer.setCoreDataDAO(coreDataDAO);
+//			snapshotFileContainer.init();
 		} catch (Exception e) {
 			Assert.fail(e.getMessage());
 		}

@@ -2,6 +2,7 @@ package com.nd.rock.server.controller.manager;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,11 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nd.rock.server.model.container.CoreDataObservable;
+import com.nd.rock.server.model.container.CoreDataObserver;
 import com.nd.rock.server.model.instance.CoreDataIn;
 
+/**
+ * @author QiuZongming
+ *
+ */
 @Controller
 @RequestMapping("/action")
-public class ActionController extends AbstractController {
+public class ActionController extends AbstractController implements CoreDataObservable {
 
 	/**
 	 * 精确查询数据
@@ -40,15 +47,18 @@ public class ActionController extends AbstractController {
 			super.directToError(response, messageBuilder.toString());
 			return null;
 		}
-		/***** 结束>>校验参数合法性的代码*****/
 		
-		int result = coreDataDAO.logicUpdate(group, dataId, oriVersion, newContent,
-				CoreDataIn.calculateSummary(newContent));
-		if (result == 0) {
+		/***** 开始业务逻辑操作 *****/
+		if (this.coreDataDAO.logicUpdate(group, dataId, oriVersion, newContent,
+				CoreDataIn.calculateSummary(newContent)) == 0) {
 			directToError(response, "更新数据失败, 数据不存在或者被更新！");
 			return null;
 		}
 
+		/***** 通知所有观察者 *****/
+		this.notifyObservers(group, dataId);
+		
+		/***** 页面跳转 *****/
 		Map<String, String> directToArgs = new HashMap<>();
 		directToArgs.put("group", group);
 		directToArgs.put("dataId", dataId);
@@ -72,14 +82,17 @@ public class ActionController extends AbstractController {
 			super.directToError(response, messageBuilder.toString());
 			return null;
 		}
-		/***** 结束>>校验参数合法性的代码*****/
 		
-		int result = coreDataDAO.logicDelete(group, dataId, version);
-		if (result == 0) {
+		/***** 开始业务逻辑操作 *****/
+		if (coreDataDAO.logicDelete(group, dataId, version) == 0) {
 			directToError(response, "删除数据失败, 数据不存在或者被更新！");
 			return null;
 		}
 
+		/***** 通知所有观察者 *****/
+		this.notifyObservers(group, dataId);
+		
+		/***** 页面跳转 *****/
 		Map<String, String> directToArgs = new HashMap<>();
 		directToArgs.put("group", group);
 		directToArgs.put("dataId", "%");
@@ -104,24 +117,47 @@ public class ActionController extends AbstractController {
 			super.directToError(response, messageBuilder.toString());
 			return null;
 		}
-		/***** 结束>>校验参数合法性的代码*****/
 		
+		
+		/***** 开始业务逻辑操作 *****/
 		CoreDataIn.CoreDataBuilder builder = new CoreDataIn.CoreDataBuilder();
 		builder.setGroup(group);
 		builder.setDataId(dataId);
 		builder.setSummary(CoreDataIn.calculateSummary(content));
 		builder.setContent(content);
-		
-		int result = coreDataDAO.logicInsert(builder.build());
-		if (result == 0) {
+		if(coreDataDAO.logicInsert(builder.build()) == 0){
 			directToError(response, "新增数据失败, 数据已存在或者被更新！");
 			return null;
 		}
 		
+		/***** 通知所有观察者 *****/
+		this.notifyObservers(group, dataId);
+		
+		/***** 页面跳转 *****/
 		Map<String, String> directToArgs = new HashMap<>();
 		directToArgs.put("group", group);
 		directToArgs.put("dataId", dataId);
 		return directTo(response, "view", "detail.html", directToArgs, "新增数据公共。");
+	}
+	
+	/********** CoreDataObservable实现 **********/
+	
+	private Vector<CoreDataObserver> vector = new Vector<>();
+
+	@Override
+	public void addObserver(CoreDataObserver coreDataObserver) {
+		this.vector.add(coreDataObserver);
+	}
+	@Override
+	public synchronized void notifyObservers(String group, String dataId) {
+		for(CoreDataObserver coreDataObserver : vector) {
+			coreDataObserver.update(group, dataId);
+		}
+	}
+	
+	@Override
+	public void removeObserver(CoreDataObserver coreDataObserver) {
+		this.vector.remove(coreDataObserver);
 	}
 	
 }

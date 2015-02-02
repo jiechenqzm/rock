@@ -14,7 +14,7 @@ import com.nd.rock.common.net.bean.response.CommonResBody;
 
 import static com.nd.rock.common.constants.CommonConstants.CHARACTER_ENCODING_DEFAULT;
 
-public class AbstractApiController {
+public class AbstractApiService {
 
 	private static Logger logger = LoggerFactory.getLogger("apiLog");
 

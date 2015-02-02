@@ -4,6 +4,11 @@ import java.io.File;
 
 public interface DataPathFactory {
 	
+	public String getDataPath();
+	
+
+	/********** 下面部分是静态常量 **********/
+	
 	public static final String PROJECT_HOME_PATH = System.getProperties().getProperty("user.home") + File.separator + "middleware"
 			+ File.separator + "rock";
 	
@@ -16,9 +21,5 @@ public interface DataPathFactory {
 	public static final String SNAPSHOT = "snapshot";
 	
 	public static final String STATIC = "static";
-	
-	
-	
-	public String getDataPath();
 	
 }

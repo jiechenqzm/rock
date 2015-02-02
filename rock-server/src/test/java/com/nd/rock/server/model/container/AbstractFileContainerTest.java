@@ -12,7 +12,7 @@ public class AbstractFileContainerTest {
 	
 	private static final String GROUP = "TEST_GROUP";
 	
-	private static DataContainer dataContainer = null;
+	private static Container dataContainer = null;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

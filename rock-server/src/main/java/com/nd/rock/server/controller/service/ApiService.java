@@ -18,14 +18,14 @@ import com.nd.rock.common.net.bean.ResponseBody;
 import com.nd.rock.common.net.bean.request.GetContentParam;
 import com.nd.rock.common.net.bean.response.CommonResBody;
 import com.nd.rock.common.net.bean.response.ContentRes;
-import com.nd.rock.server.model.container.DataContainer;
+import com.nd.rock.server.controller.service.behavior.GetContentBehavior;
 
 @Controller
 @RequestMapping("/api")
-public class ApiService extends AbstractApiController {
-
+public class ApiService extends AbstractApiService {
+	
 	@Autowired
-	private DataContainer snapshotFileContainer = null;
+	private GetContentBehavior getContentBehavior = null;
 
 	/**
 	 * 获取数据
@@ -44,7 +44,7 @@ public class ApiService extends AbstractApiController {
 				Map<String, String> groupResultMap = new HashMap<String, String>();
 				for (String dataId : entry.getValue()) {
 					groupResultMap.put(dataId,
-							this.snapshotFileContainer.get(entry.getKey(), dataId));
+							this.getContentBehavior.get(entry.getKey(), dataId));
 				}
 				resultMap.put(entry.getKey(), groupResultMap);
 			}
@@ -56,9 +56,32 @@ public class ApiService extends AbstractApiController {
 			super.doErrorResponse(response, "DoGetContent Error.", e);
 		}
 	}
+	
+	@RequestMapping(value = "/checkContent.do", method = RequestMethod.POST)
+	public void doCheckContent(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "param", required = true) String param,
+			ModelMap modelMap) {
+		Map<String, Map<String, String>> resultMap = new HashMap<>();
+		try {
+			GetContentParam getContentParam = GetContentParam
+					.fromJsonStr(param);
+			for (Map.Entry<String, List<String>> entry : getContentParam
+					.getParamMap().entrySet()) {
+				Map<String, String> groupResultMap = new HashMap<String, String>();
+				for (String dataId : entry.getValue()) {
+					groupResultMap.put(dataId,
+							this.getContentBehavior.get(entry.getKey(), dataId));
+				}
+				resultMap.put(entry.getKey(), groupResultMap);
+			}
 
-	public void setSnapshotFileContainer(DataContainer snapshotFileContainer) {
-		this.snapshotFileContainer = snapshotFileContainer;
+			ResponseBody<ContentRes> responseBody = new CommonResBody<>(
+					new ContentRes(resultMap));
+			doResponse(response, responseBody);
+		} catch (Exception e) {
+			super.doErrorResponse(response, "DoGetContent Error.", e);
+		}
 	}
 
 }
