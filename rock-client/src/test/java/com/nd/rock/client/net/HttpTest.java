@@ -13,7 +13,7 @@ import org.apache.commons.httpclient.params.HttpClientParams;
 import org.junit.Test;
 
 import com.nd.rock.common.net.bean.request.GetContentParam;
-import com.nd.rock.common.net.bean.response.CommonResBody;
+import com.nd.rock.common.net.bean.response.CommonResponseBody;
 
 public class HttpTest {
 	
@@ -30,7 +30,7 @@ public class HttpTest {
 		param.put("TEST_GROUP", list);
 
 		GetContentParam getContentParam = new GetContentParam(param);
-		CommonResBody<GetContentParam> defaultResponseBody = new CommonResBody<>(getContentParam);
+		CommonResponseBody<GetContentParam> defaultResponseBody = new CommonResponseBody<>(getContentParam);
 		
 		
 		HttpClient httpClient = createHttpClient("localhost", 80, 3*1000, 5*60*1000);

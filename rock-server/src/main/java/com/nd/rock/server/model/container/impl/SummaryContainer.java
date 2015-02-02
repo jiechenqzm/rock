@@ -26,7 +26,9 @@ public class SummaryContainer implements Container {
 			throws IOException {
 		ConcurrentHashMap<String, String> groupMap = this.summaryMap.get(group);
 		if(groupMap == null){
-			groupMap = this.summaryMap.putIfAbsent(group, new ConcurrentHashMap<String, String>());
+			groupMap = new ConcurrentHashMap<String, String>();
+			ConcurrentHashMap<String, String> innerMap = this.summaryMap.putIfAbsent(group, groupMap);
+			groupMap = innerMap == null ? groupMap : innerMap;
 		}
 		groupMap.put(dataId, content);
 		return true;

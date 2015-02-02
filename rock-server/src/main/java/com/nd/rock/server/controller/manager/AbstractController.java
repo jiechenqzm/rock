@@ -24,7 +24,7 @@ public abstract class AbstractController {
 
 	@Autowired
 	protected CoreDataDAO coreDataDAO;
-	
+
 	protected RequestPreHandler urlPreHandler = new UrlPreHandler();
 	protected RequestPreHandler baseParamPreHandler = new BaseParamPreHandler();
 	protected RequestPreHandler messagePreHandler = new ParamNameHandler(ActionController.MESSAGE_KEY);

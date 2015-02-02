@@ -1,5 +1,6 @@
 package com.nd.rock.server.controller.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,18 +15,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.nd.rock.common.net.bean.ResponseBody;
+import com.nd.rock.common.net.bean.request.CheckSummaryParam;
 import com.nd.rock.common.net.bean.request.GetContentParam;
-import com.nd.rock.common.net.bean.response.CommonResBody;
-import com.nd.rock.common.net.bean.response.ContentRes;
+import com.nd.rock.common.net.bean.response.ContentResponse;
+import com.nd.rock.common.net.bean.response.FinalCheckSummaryResponse;
+import com.nd.rock.common.net.bean.response.FinalGetContentResponse;
+import com.nd.rock.common.net.bean.response.SummaryResponse;
+import com.nd.rock.server.controller.service.behavior.CheckContentBehavior;
 import com.nd.rock.server.controller.service.behavior.GetContentBehavior;
 
 @Controller
 @RequestMapping("/api")
 public class ApiService extends AbstractApiService {
-	
+
 	@Autowired
 	private GetContentBehavior getContentBehavior = null;
+
+	@Autowired
+	private CheckContentBehavior checkContentBehavior = null;
 
 	/**
 	 * 获取数据
@@ -38,46 +45,53 @@ public class ApiService extends AbstractApiService {
 		Map<String, Map<String, String>> resultMap = new HashMap<>();
 		try {
 			GetContentParam getContentParam = GetContentParam
-					.fromJsonStr(param);
+					.fromJsonString(param);
 			for (Map.Entry<String, List<String>> entry : getContentParam
 					.getParamMap().entrySet()) {
 				Map<String, String> groupResultMap = new HashMap<String, String>();
 				for (String dataId : entry.getValue()) {
-					groupResultMap.put(dataId,
-							this.getContentBehavior.get(entry.getKey(), dataId));
+					groupResultMap
+							.put(dataId, this.getContentBehavior.get(
+									entry.getKey(), dataId));
 				}
 				resultMap.put(entry.getKey(), groupResultMap);
 			}
-
-			ResponseBody<ContentRes> responseBody = new CommonResBody<>(
-					new ContentRes(resultMap));
+			FinalGetContentResponse responseBody = new FinalGetContentResponse(
+					new ContentResponse(resultMap));
 			doResponse(response, responseBody);
 		} catch (Exception e) {
 			super.doErrorResponse(response, "DoGetContent Error.", e);
 		}
 	}
-	
-	@RequestMapping(value = "/checkContent.do", method = RequestMethod.POST)
-	public void doCheckContent(HttpServletRequest request,
+
+	/**
+	 * 轮询变更
+	 */
+	@RequestMapping(value = "/checkSummary.do", method = RequestMethod.POST)
+	public void doCheckSummary(HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestParam(value = "param", required = true) String param,
 			ModelMap modelMap) {
-		Map<String, Map<String, String>> resultMap = new HashMap<>();
+		Map<String, List<String>> resultMap = new HashMap<>();
 		try {
-			GetContentParam getContentParam = GetContentParam
-					.fromJsonStr(param);
-			for (Map.Entry<String, List<String>> entry : getContentParam
+			CheckSummaryParam checkSummaryParam = CheckSummaryParam
+					.fromJsonString(param);
+
+			for (Map.Entry<String, Map<String, String>> entry : checkSummaryParam
 					.getParamMap().entrySet()) {
-				Map<String, String> groupResultMap = new HashMap<String, String>();
-				for (String dataId : entry.getValue()) {
-					groupResultMap.put(dataId,
-							this.getContentBehavior.get(entry.getKey(), dataId));
+				List<String> list = new ArrayList<>();
+				for (Map.Entry<String, String> entry2 : entry.getValue()
+						.entrySet()) {
+					if (!this.checkContentBehavior.check(entry.getKey(),
+							entry2.getKey(), entry2.getValue())) {
+						list.add(entry2.getKey());
+					}
 				}
-				resultMap.put(entry.getKey(), groupResultMap);
+				resultMap.put(entry.getKey(), list);
 			}
 
-			ResponseBody<ContentRes> responseBody = new CommonResBody<>(
-					new ContentRes(resultMap));
+			FinalCheckSummaryResponse responseBody = new FinalCheckSummaryResponse(
+					new SummaryResponse(resultMap));
 			doResponse(response, responseBody);
 		} catch (Exception e) {
 			super.doErrorResponse(response, "DoGetContent Error.", e);

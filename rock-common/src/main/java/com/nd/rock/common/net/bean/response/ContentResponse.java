@@ -7,14 +7,14 @@ import net.sf.json.JSONObject;
 
 import com.nd.rock.common.util.QJSONUtil;
 
-public class ContentRes {
+public class ContentResponse {
 
 	private Map<String/*group*/, Map<String/*dataId*/, String/*content*/>> content = null;
 	
 	// JSON-LIB构造bean对象需要午参构造函数
-	public ContentRes() {}
+	public ContentResponse() {}
 	
-	public ContentRes(Map<String, Map<String, String>> content) {
+	public ContentResponse(Map<String, Map<String, String>> content) {
 		this.content = content;
 	}
 
@@ -26,15 +26,15 @@ public class ContentRes {
 		this.content = content;
 	}
 
-	public static ContentRes fromJsonString(String jsonStr)
+	public static ContentResponse fromJsonString(String jsonStr)
 			throws JSONException {
 		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
 		return fromJsonObject(jsonObject);
 	}
 	
-	public static ContentRes fromJsonObject(JSONObject jsonObject)
+	public static ContentResponse fromJsonObject(JSONObject jsonObject)
 			throws JSONException {
-		return new ContentRes(QJSONUtil.parse2MapMap(jsonObject));
+		return new ContentResponse(QJSONUtil.parse2MapMap(jsonObject));
 	}
 	
 }

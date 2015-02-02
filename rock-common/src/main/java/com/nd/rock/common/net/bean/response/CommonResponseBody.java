@@ -5,7 +5,7 @@ import net.sf.json.JSONObject;
 import com.nd.rock.common.net.bean.ResponseBody;
 import com.nd.rock.common.net.bean.impl.AbstractJSONStringAble;
 
-public class CommonResBody<T> extends AbstractJSONStringAble implements
+public class CommonResponseBody<T> extends AbstractJSONStringAble implements
 		ResponseBody<T> {
 
 	private boolean ok = false;
@@ -15,18 +15,18 @@ public class CommonResBody<T> extends AbstractJSONStringAble implements
 	private T responseBody = null;
 
 	// JSON-LIB构造bean对象需要午参构造函数
-	public CommonResBody() {
+	public CommonResponseBody() {
 	}
 
-	public CommonResBody(T responseBody) {
+	public CommonResponseBody(T responseBody) {
 		this(true, null, responseBody);
 	}
 
-	public CommonResBody(String messge) {
+	public CommonResponseBody(String messge) {
 		this(false, messge, null);
 	}
 
-	public CommonResBody(boolean ok, String message, T responseBody) {
+	public CommonResponseBody(boolean ok, String message, T responseBody) {
 		this.ok = ok;
 		this.message = message;
 		this.responseBody = responseBody;
@@ -64,8 +64,8 @@ public class CommonResBody<T> extends AbstractJSONStringAble implements
 		this.setOk(jsonObject.getBoolean("ok"));
 	}
 
-	public static CommonResBody<Object> fail(String message) {
-		return new CommonResBody<Object>(message);
+	public static CommonResponseBody<Object> fail(String message) {
+		return new CommonResponseBody<Object>(message);
 	}
 
 }

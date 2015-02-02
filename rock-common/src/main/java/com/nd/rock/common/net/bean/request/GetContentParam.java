@@ -27,7 +27,7 @@ public class GetContentParam extends AbstractJSONStringAble {
 		this.paramMap = paramMap;
 	}
 
-	public static GetContentParam fromJsonStr(String jsonStr)
+	public static GetContentParam fromJsonString(String jsonStr)
 			throws JSONException {
 		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
 		return (GetContentParam) JSONObject.toBean(jsonObject,

@@ -13,13 +13,35 @@
 	default-autowire="byName">
 
 	<context:annotation-config />
-	
-	<import resource="classpath:dao-context.xml"/>
-	
-	<bean id="summaryBehavior" class="com.nd.rock.server.model.summary.MD5Summary"/>
-	
-	<bean id="snapshotFileContainer" class="com.nd.rock.server.model.container.impl.SnapshotFileContainer" init-method="init">
-		<property name="coreDataDAO" ref="coreDataDAO"/>
+
+	<import resource="classpath:dao-context.xml" />
+
+	<bean id="getContentBehavior"
+		class="com.nd.rock.server.controller.service.behavior.impl.GetFileContentBehavior">
+		<property name="fileContainer" ref="snapshotFileContainer" />
 	</bean>
+
+	<bean id="coreDataObservable" class="com.nd.rock.server.model.container.impl.ActionObserver">
+	    <property name="vector">  
+	      <list>
+	      <ref bean="defaultContainer"/>
+	      </list>  
+	    </property>  
+	</bean>
+
+	<bean id="defaultContainer"
+		class="com.nd.rock.server.model.container.impl.DefaultContainer"
+		init-method="init">
+		<property name="fileContainer" ref="snapshotFileContainer" />
+		<property name="summaryContainer" ref="summaryContainer" />
+		<property name="coreDataDAO" ref="coreDataDAO" />
+	</bean>
+
+	<bean id="snapshotFileContainer"
+		class="com.nd.rock.server.model.container.impl.SnapshotFileContainer" />
+
+	<bean id="summaryContainer"
+		class="com.nd.rock.server.model.container.impl.SummaryContainer" />
+
 
 </beans>

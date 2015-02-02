@@ -2,11 +2,11 @@ package com.nd.rock.server.controller.manager;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nd.rock.server.model.container.CoreDataObservable;
-import com.nd.rock.server.model.container.CoreDataObserver;
 import com.nd.rock.server.model.instance.CoreDataIn;
 
 /**
@@ -23,8 +22,11 @@ import com.nd.rock.server.model.instance.CoreDataIn;
  */
 @Controller
 @RequestMapping("/action")
-public class ActionController extends AbstractController implements CoreDataObservable {
+public class ActionController extends AbstractController {
 
+	@Autowired
+	private CoreDataObservable coreDataObservable;
+	
 	/**
 	 * 精确查询数据
 	 */
@@ -55,8 +57,8 @@ public class ActionController extends AbstractController implements CoreDataObse
 			return null;
 		}
 
-		/***** 通知所有观察者 *****/
-		this.notifyObservers(group, dataId);
+		/***** 通知观察者 *****/
+		this.coreDataObservable.notifyObservers(group, dataId);
 		
 		/***** 页面跳转 *****/
 		Map<String, String> directToArgs = new HashMap<>();
@@ -89,8 +91,8 @@ public class ActionController extends AbstractController implements CoreDataObse
 			return null;
 		}
 
-		/***** 通知所有观察者 *****/
-		this.notifyObservers(group, dataId);
+		/***** 通知观察者 *****/
+		this.coreDataObservable.notifyObservers(group, dataId);
 		
 		/***** 页面跳转 *****/
 		Map<String, String> directToArgs = new HashMap<>();
@@ -130,8 +132,8 @@ public class ActionController extends AbstractController implements CoreDataObse
 			return null;
 		}
 		
-		/***** 通知所有观察者 *****/
-		this.notifyObservers(group, dataId);
+		/***** 通知观察者 *****/
+		this.coreDataObservable.notifyObservers(group, dataId);
 		
 		/***** 页面跳转 *****/
 		Map<String, String> directToArgs = new HashMap<>();
@@ -139,25 +141,5 @@ public class ActionController extends AbstractController implements CoreDataObse
 		directToArgs.put("dataId", dataId);
 		return directTo(response, "view", "detail.html", directToArgs, "新增数据公共。");
 	}
-	
-	/********** CoreDataObservable实现 **********/
-	
-	private Vector<CoreDataObserver> vector = new Vector<>();
 
-	@Override
-	public void addObserver(CoreDataObserver coreDataObserver) {
-		this.vector.add(coreDataObserver);
-	}
-	@Override
-	public synchronized void notifyObservers(String group, String dataId) {
-		for(CoreDataObserver coreDataObserver : vector) {
-			coreDataObserver.update(group, dataId);
-		}
-	}
-	
-	@Override
-	public void removeObserver(CoreDataObserver coreDataObserver) {
-		this.vector.remove(coreDataObserver);
-	}
-	
 }

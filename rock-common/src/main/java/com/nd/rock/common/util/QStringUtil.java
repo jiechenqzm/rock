@@ -25,5 +25,13 @@ public class QStringUtil {
 		}
 		return result;
 	}
+	
+	public static boolean equal(String string1, String string2) {
+		if(string1 == null && string2 == null)
+			return true;
+		else if(string1 != null && string2 != null)
+			return string1.equals(string2);
+		return false;
+	}
 
 }

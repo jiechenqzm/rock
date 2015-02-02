@@ -14,8 +14,8 @@ import org.apache.commons.httpclient.params.HttpClientParams;
 import org.junit.Test;
 
 import com.nd.rock.common.net.bean.request.GetContentParam;
-import com.nd.rock.common.net.bean.response.ContentRes;
-import com.nd.rock.common.net.bean.response.ReturnContentRes;
+import com.nd.rock.common.net.bean.response.ContentResponse;
+import com.nd.rock.common.net.bean.response.FinalGetContentResponse;
 
 public class HttpTest {
 	
@@ -40,9 +40,9 @@ public class HttpTest {
 		try {
 			String result = URLDecoder.decode(realRequest(httpClient, postMethod), "UTF-8");
 
-			ReturnContentRes response = ReturnContentRes.fromJsonString(result);			
+			FinalGetContentResponse response = FinalGetContentResponse.fromJsonString(result);			
 			
-			ContentRes returnContentParam = response.getResponseBody();
+			ContentResponse returnContentParam = response.getResponseBody();
 			
 			
 			Map<String, Map<String, String>> map = returnContentParam.getContent();
