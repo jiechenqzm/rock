@@ -2,6 +2,7 @@ package com.nd.rock.server.controller.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletResponse;
 
@@ -11,11 +12,14 @@ import org.slf4j.LoggerFactory;
 import com.nd.rock.common.net.bean.JSONStringAble;
 import com.nd.rock.common.net.bean.response.CommonResBody;
 
-public class AbstractApiController {
-	
-    private static Logger logger = LoggerFactory.getLogger("apiLog");
+import static com.nd.rock.common.constants.CommonConstants.CHARACTER_ENCODING_DEFAULT;
 
-	protected void doErrorResponse(ServletResponse response, String message, Exception e){
+public class AbstractApiController {
+
+	private static Logger logger = LoggerFactory.getLogger("apiLog");
+
+	protected void doErrorResponse(ServletResponse response, String message,
+			Exception e) {
 		logger.error(message, e);
 		doResponse(response, CommonResBody.fail(message + e.getMessage()));
 	}
@@ -24,7 +28,8 @@ public class AbstractApiController {
 			JSONStringAble responseBody) {
 		try {
 			PrintWriter writer = response.getWriter();
-			writer.write(responseBody.toJSONString());
+			writer.write(URLEncoder.encode(responseBody.toJSONString(),
+					CHARACTER_ENCODING_DEFAULT));
 		} catch (IOException e) {
 			this.recordErrorInLog("Response Writer Error.", e);
 		}

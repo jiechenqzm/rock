@@ -9,6 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.nd.rock.server.view.response.SendRedirectBehavior;
+import static com.nd.rock.common.constants.CommonConstants.CHARACTER_ENCODING_DEFAULT;
+import static com.nd.rock.common.constants.CommonConstants.CHARACTER_ENCODING_ISO88591;;
+
+
 
 public class TranscodingSendRedirect implements SendRedirectBehavior {
 	
@@ -16,9 +20,9 @@ public class TranscodingSendRedirect implements SendRedirectBehavior {
 	
 	private HttpServletResponse response = null;
 	
-	private String oriCharset = "UTF-8";
+	private String oriCharset = CHARACTER_ENCODING_DEFAULT;
 	
-	private String tarCharset = "ISO8859-1";
+	private String tarCharset = CHARACTER_ENCODING_ISO88591;
 	
 	public TranscodingSendRedirect(HttpServletResponse response) {
 		this.response = response;

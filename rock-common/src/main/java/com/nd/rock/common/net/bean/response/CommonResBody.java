@@ -58,14 +58,14 @@ public class CommonResBody<T> extends AbstractJSONStringAble implements
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
-	public static CommonResBody<Object> fail(String message) {
-		return new CommonResBody<Object>(message);
-	}
 	
 	protected void fromJsonObject2Common(JSONObject jsonObject){
 		this.setMessage(jsonObject.getString("message"));
 		this.setOk(jsonObject.getBoolean("ok"));
+	}
+
+	public static CommonResBody<Object> fail(String message) {
+		return new CommonResBody<Object>(message);
 	}
 
 }

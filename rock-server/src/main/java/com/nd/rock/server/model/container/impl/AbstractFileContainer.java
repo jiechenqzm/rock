@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 import com.nd.rock.server.model.container.DataContainer;
+import static com.nd.rock.common.constants.CommonConstants.CHARACTER_ENCODING_DEFAULT;
+
 
 public abstract class AbstractFileContainer implements DataContainer {
-	
-	private static final String CHARACTOR = "UTF-8";
-	
+		
 	@Override
 	public boolean delete(String group, String dataId) throws IOException {
 		String filePath = getFilePath(group, dataId);
@@ -33,7 +33,7 @@ public abstract class AbstractFileContainer implements DataContainer {
         try(FileInputStream in = new FileInputStream(file)) {
         	in.read(filecontent);	
         }
-        return new String(filecontent, CHARACTOR); 
+        return new String(filecontent, CHARACTER_ENCODING_DEFAULT); 
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public abstract class AbstractFileContainer implements DataContainer {
 			file.createNewFile();
 
 		try (OutputStreamWriter osw = new OutputStreamWriter(
-				new FileOutputStream(file), CHARACTOR)) {
+				new FileOutputStream(file), CHARACTER_ENCODING_DEFAULT)) {
 			osw.write(content);
 			osw.flush();
 		}

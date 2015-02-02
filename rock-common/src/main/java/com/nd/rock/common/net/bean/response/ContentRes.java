@@ -1,11 +1,11 @@
 package com.nd.rock.common.net.bean.response;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
+
+import com.nd.rock.common.util.QJSONUtil;
 
 public class ContentRes {
 
@@ -32,18 +32,9 @@ public class ContentRes {
 		return fromJsonObject(jsonObject);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static ContentRes fromJsonObject(JSONObject jsonObject)
 			throws JSONException {
-		Map<String, Map<String, String>> content = new HashMap<String, Map<String, String>>();
-		JSONObject contentJson = jsonObject.getJSONObject("content");
-		for(Iterator iterator = contentJson.keys() ; iterator.hasNext(); ) {
-			String key = (String)iterator.next();
-			JSONObject groupJson = contentJson.getJSONObject(key);
-			Map<String, String> map = (Map<String, String>)JSONObject.toBean(groupJson, Map.class);
-			content.put(key, map);
-		}
-		return new ContentRes(contentJson);
+		return new ContentRes(QJSONUtil.parse2MapMap(jsonObject));
 	}
 	
 }

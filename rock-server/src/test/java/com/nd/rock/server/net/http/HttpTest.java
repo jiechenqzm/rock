@@ -1,13 +1,10 @@
 package com.nd.rock.server.net.http;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
-import net.sf.json.JsonConfig;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -16,11 +13,9 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.junit.Test;
 
-import com.nd.rock.common.json.BeanClass;
 import com.nd.rock.common.net.bean.request.GetContentParam;
-import com.nd.rock.common.net.bean.response.CommonResBody;
-import com.nd.rock.common.net.bean.response.ReturnContentRes;
 import com.nd.rock.common.net.bean.response.ContentRes;
+import com.nd.rock.common.net.bean.response.ReturnContentRes;
 
 public class HttpTest {
 	
@@ -43,7 +38,7 @@ public class HttpTest {
 		postMethod.setParameter("param", getContentParam.toJSONString());
 		
 		try {
-			String result = realRequest(httpClient, postMethod);
+			String result = URLDecoder.decode(realRequest(httpClient, postMethod), "UTF-8");
 
 			ReturnContentRes response = ReturnContentRes.fromJsonString(result);			
 			
@@ -53,7 +48,7 @@ public class HttpTest {
 			Map<String, Map<String, String>> map = returnContentParam.getContent();
 			for(Map.Entry<String, Map<String, String>> entry : map.entrySet()) {
 				for(Map.Entry<String, String> entry2 : entry.getValue().entrySet()) {
-					System.out.println(entry.getKey() + "\t" + entry2.getKey() + "\t" + entry2.getValue());;
+					System.out.println(entry.getKey() + "\t" + entry2.getKey() + "\t" + entry2.getValue());
 				}
 			}
 			
