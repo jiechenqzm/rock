@@ -13,7 +13,7 @@ import org.springframework.beans.FatalBeanException;
 
 import com.nd.rock.common.exception.CallableExecuteException;
 import com.nd.rock.common.net.bean.impl.DataKeyOb;
-import com.nd.rock.server.controller.multithread.NamedThreadFactory;
+import com.nd.rock.common.thread.NamedThreadFactory;
 import com.nd.rock.server.model.container.Container;
 import com.nd.rock.server.model.container.CoreDataObserver;
 import com.nd.rock.server.model.dao.CoreDataDAO;

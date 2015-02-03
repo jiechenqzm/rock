@@ -1,4 +1,4 @@
-package com.nd.rock.server.controller.multithread;
+package com.nd.rock.common.thread;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;

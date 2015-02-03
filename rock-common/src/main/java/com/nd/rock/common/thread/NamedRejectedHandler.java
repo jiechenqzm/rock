@@ -1,4 +1,4 @@
-package com.nd.rock.server.controller.multithread;
+package com.nd.rock.common.thread;
 
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.RejectedExecutionHandler;
