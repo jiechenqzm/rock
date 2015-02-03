@@ -15,10 +15,15 @@
 	<context:annotation-config />
 
 	<import resource="classpath:dao-context.xml" />
+	
+	<bean id="checkContentBehavior"
+		class="com.nd.rock.server.controller.service.behavior.impl.CheckSummaryBehavior">
+		<property name="container" ref="summaryContainer" />
+	</bean>
 
 	<bean id="getContentBehavior"
 		class="com.nd.rock.server.controller.service.behavior.impl.GetFileContentBehavior">
-		<property name="fileContainer" ref="snapshotFileContainer" />
+		<property name="container" ref="snapshotFileContainer" />
 	</bean>
 
 	<bean id="coreDataObservable" class="com.nd.rock.server.model.container.impl.ActionObserver">

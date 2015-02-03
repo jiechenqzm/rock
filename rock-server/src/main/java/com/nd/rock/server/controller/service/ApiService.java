@@ -50,9 +50,10 @@ public class ApiService extends AbstractApiService {
 					.getParamMap().entrySet()) {
 				Map<String, String> groupResultMap = new HashMap<String, String>();
 				for (String dataId : entry.getValue()) {
-					groupResultMap
-							.put(dataId, this.getContentBehavior.get(
-									entry.getKey(), dataId));
+					String content = this.getContentBehavior.get(
+							entry.getKey(), dataId);
+					if (content != null)
+						groupResultMap.put(dataId, content);
 				}
 				resultMap.put(entry.getKey(), groupResultMap);
 			}

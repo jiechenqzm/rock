@@ -30,6 +30,7 @@ public class AbstractApiService {
 			PrintWriter writer = response.getWriter();
 			writer.write(URLEncoder.encode(responseBody.toJSONString(),
 					CHARACTER_ENCODING_DEFAULT));
+//			writer.write(responseBody.toJSONString());
 		} catch (IOException e) {
 			this.recordErrorInLog("Response Writer Error.", e);
 		}

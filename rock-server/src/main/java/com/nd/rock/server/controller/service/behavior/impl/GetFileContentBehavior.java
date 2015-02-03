@@ -8,19 +8,19 @@ import com.nd.rock.server.model.container.Container;
 
 public class GetFileContentBehavior implements GetContentBehavior {
 
-	private Container fileContainer = null;
+	private Container container = null;
 
 	@Override
 	public String get(String group, String dataId) {
 		try {
-			return fileContainer.get(group, dataId);
+			return container.get(group, dataId);
 		} catch (IOException e) {
 			throw new ServiceBehaviorFailException("GetDataContent Failed.", e);
 		}
 	}
 
-	public void setFileContainer(Container fileContainer) {
-		this.fileContainer = fileContainer;
+	public void setContainer(Container container) {
+		this.container = container;
 	}
 
 }

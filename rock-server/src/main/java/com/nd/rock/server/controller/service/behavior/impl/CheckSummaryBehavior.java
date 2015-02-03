@@ -27,7 +27,7 @@ public class CheckSummaryBehavior implements CheckContentBehavior {
 		return QStringUtil.equal(containerValue, content);
 	}
 
-	public void setFileContainer(Container container) {
+	public void setContainer(Container container) {
 		this.container = container;
 	}
 

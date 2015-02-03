@@ -13,7 +13,7 @@ import com.nd.rock.server.view.page.PageItems;
 
 public class CoreDataDAOImplTest {
 
-	private static final String GROUP = "TEST_GROUP";
+	private static final String GROUP = "TEST_GROUP_DAO";
 	private static final String DATA_ID = "junit_test_for_write_function";
 	private static final Long VERSION = 0l;
 	private static final String SUMMARY = "summary";

@@ -34,7 +34,8 @@ public class ContentResponse {
 	
 	public static ContentResponse fromJsonObject(JSONObject jsonObject)
 			throws JSONException {
-		return new ContentResponse(QJSONUtil.parse2MapMap(jsonObject));
+		Map<String, JSONObject> propertyMap = QJSONUtil.parse2JSONObject(jsonObject);
+		return new ContentResponse(QJSONUtil.parse2MapMap(propertyMap.get("content")));
 	}
 	
 }

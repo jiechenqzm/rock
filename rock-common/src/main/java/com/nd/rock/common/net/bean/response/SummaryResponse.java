@@ -35,7 +35,9 @@ public class SummaryResponse {
 	
 	public static SummaryResponse fromJsonObject(JSONObject jsonObject)
 			throws JSONException {
-		return new SummaryResponse(QJSONUtil.parse2MapList(jsonObject));
+		
+		Map<String, JSONObject> propertyMap = QJSONUtil.parse2JSONObject(jsonObject);
+		return new SummaryResponse(QJSONUtil.parse2MapList(propertyMap.get("content")));
 	}
 	
 }
