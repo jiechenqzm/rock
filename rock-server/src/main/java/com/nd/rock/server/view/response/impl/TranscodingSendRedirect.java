@@ -16,7 +16,7 @@ import static com.nd.rock.common.constants.CommonConstants.CHARACTER_ENCODING_IS
 
 public class TranscodingSendRedirect implements SendRedirectBehavior {
 	
-    private static Logger logger = LoggerFactory.getLogger(TranscodingSendRedirect.class);
+    private static final Logger logger = LoggerFactory.getLogger(TranscodingSendRedirect.class);
 	
 	private HttpServletResponse response = null;
 	

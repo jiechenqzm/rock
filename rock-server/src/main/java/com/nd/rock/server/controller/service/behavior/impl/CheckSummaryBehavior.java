@@ -11,7 +11,7 @@ import com.nd.rock.server.model.container.Container;
 
 public class CheckSummaryBehavior implements CheckContentBehavior {
 	
-    private static Logger logger = LoggerFactory.getLogger(CheckSummaryBehavior.class);
+    private static final Logger logger = LoggerFactory.getLogger(CheckSummaryBehavior.class);
 
 	private Container container = null;
 

@@ -21,7 +21,7 @@ import com.nd.rock.server.model.instance.CoreDataIn;
 
 public class DefaultContainer implements CoreDataObserver {
 	
-    private static Logger logger = LoggerFactory.getLogger(DefaultContainer.class);
+    private static final Logger logger = LoggerFactory.getLogger(DefaultContainer.class);
 
 	private Container fileContainer = null;
 	

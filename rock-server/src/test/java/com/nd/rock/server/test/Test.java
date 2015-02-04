@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 public class Test {
 	
-	private static Logger logger = LoggerFactory.getLogger(Test.class);
+	private static final Logger logger = LoggerFactory.getLogger(Test.class);
 
 	public static void main(String[] args) {
 		testPath();

@@ -16,7 +16,7 @@ import static com.nd.rock.common.constants.CommonConstants.CHARACTER_ENCODING_DE
 
 public class AbstractApiService {
 
-	private static Logger logger = LoggerFactory.getLogger("apiLog");
+	private static final Logger logger = LoggerFactory.getLogger("apiLog");
 
 	protected void doErrorResponse(ServletResponse response, String message,
 			Exception e) {

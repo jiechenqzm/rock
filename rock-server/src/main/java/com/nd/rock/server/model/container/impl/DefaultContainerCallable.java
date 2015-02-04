@@ -12,7 +12,7 @@ import com.nd.rock.server.model.instance.CoreDataIn;
 
 public class DefaultContainerCallable implements CoreDataDAOCallable {
 	
-	private static Logger logger = LoggerFactory.getLogger(DefaultContainerCallable.class);
+	private static final Logger logger = LoggerFactory.getLogger(DefaultContainerCallable.class);
 	
 	private Container contentContainer = null;
 	private Container summaryContainer = null;

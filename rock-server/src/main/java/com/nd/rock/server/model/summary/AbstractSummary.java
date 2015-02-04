@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractSummary implements SummaryBehavior {
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(AbstractSummary.class);
 
 	@Override

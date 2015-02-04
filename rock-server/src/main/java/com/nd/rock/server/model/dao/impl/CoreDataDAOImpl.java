@@ -22,7 +22,7 @@ import com.nd.rock.server.view.page.impl.PageArgs;
 
 public class CoreDataDAOImpl implements CoreDataDAO {
 	
-	private static Logger logger = LoggerFactory.getLogger(CoreDataDAOImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(CoreDataDAOImpl.class);
 
 	private JdbcTemplate jdbcTemplate = null;
 	

@@ -10,7 +10,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class BaseVarInterceptor extends HandlerInterceptorAdapter {
 
-    private static Logger logger = LoggerFactory.getLogger(BaseVarInterceptor.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseVarInterceptor.class);
 
 
     @Override
