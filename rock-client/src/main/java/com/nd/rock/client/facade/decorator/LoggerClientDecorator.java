@@ -35,10 +35,10 @@ public class LoggerClientDecorator extends ClientDecorator {
 	}
 
 	@Override
-	public void addObserver(String group, String dataId, String content,
+	public void registerObserver(String group, String dataId, String content,
 			Observer observer) {
 		logger.info("Start AddObserver, Group >> " + group + " ## dataId >> " + dataId + " ## content >> " + content);
-		super.client.addObserver(group, dataId, content, observer);
+		super.client.registerObserver(group, dataId, content, observer);
 	}
 
 }

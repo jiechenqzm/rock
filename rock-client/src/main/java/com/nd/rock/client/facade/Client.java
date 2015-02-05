@@ -36,7 +36,7 @@ public interface Client {
 	 * @param content	${内容}
 	 * @param observer	${观察者}
 	 */
-	public void addObserver(String group, String dataId, String content,
+	public void registerObserver(String group, String dataId, String content,
 			Observer observer);
 
 }

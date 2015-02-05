@@ -21,7 +21,7 @@ public class DefaultClient implements Client {
 	}
 
 	@Override
-	public void addObserver(String group, String dataId, String content,
+	public void registerObserver(String group, String dataId, String content,
 			Observer observer) {
 		// TODO Auto-generated method stub
 
