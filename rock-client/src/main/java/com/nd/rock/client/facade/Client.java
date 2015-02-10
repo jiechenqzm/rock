@@ -31,12 +31,12 @@ public interface Client {
 	/**
 	 * 对指定${分组}下面指定${属性}的数据的指定${内容}设置${观察者}
 	 * 当${内容}发生变化的时候,观察者的update方法被调用,并且传递最新的内容给观察者
-	 * @param group		${分组}
-	 * @param dataId	${属性}
-	 * @param content	${内容}
-	 * @param observer	${观察者}
+	 * @param group				${分组}
+	 * @param dataId			${属性}
+	 * @param content			${内容}
+	 * @param contentObserver	${观察者}
 	 */
 	public void registerObserver(String group, String dataId, String content,
-			Observer observer);
+			ContentObserver contentObserver);
 
 }

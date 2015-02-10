@@ -1,5 +1,7 @@
 package com.nd.rock.common.net.bean.response;
 
+import com.nd.rock.common.net.bean.response.base.SummaryResponse;
+
 import net.sf.json.JSONObject;
 
 

@@ -26,9 +26,6 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 
 	private JdbcTemplate jdbcTemplate = null;
 	
-	private static final String NULL_SUMMARY = "";
-	private static final String NULL_CONTENT = "";
-	
 	@Override
 	public int logicInsert(CoreDataIn dataIn) {
 		CoreDataIn oriIn = this.query(dataIn.getGroup(), dataIn.getDataId());
@@ -48,7 +45,18 @@ public class CoreDataDAOImpl implements CoreDataDAO {
 	
 	@Override
 	public int logicDelete(String group, String dataId, long version) {
-		return update(group, dataId, version, false, NULL_CONTENT, NULL_SUMMARY, true);
+		String sql = "update core_data set `version` = ?, `deleted` = ?, `gmt_modified` = ? where `group` = ? and `data_id` = ? and `version` = ? and `deleted` = ?";
+
+		Object[] args = new Object[7];
+		args[0] = version + 1;
+		args[1] = true;
+		args[2] = new Date();
+		
+		args[3] = group;
+		args[4] = dataId;
+		args[5] = version;
+		args[6] = false;
+		return jdbcTemplate.update(sql, args);
 	}
 
 	@Override

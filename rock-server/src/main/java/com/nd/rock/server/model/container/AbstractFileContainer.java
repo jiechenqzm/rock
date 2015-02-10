@@ -20,9 +20,7 @@ public abstract class AbstractFileContainer implements Container {
 	public String get(String group, String dataId)
 			throws FileNotFoundException, IOException {
 		String filePath = getFilePath(group, dataId);
-		byte[] filecontent = QFileUtil.getFileContent(filePath);
-		return filecontent == null ? null : new String(filecontent,
-				CHARACTER_ENCODING_DEFAULT);
+		return  QFileUtil.getFileContent(filePath, CHARACTER_ENCODING_DEFAULT);
 	}
 
 	@Override

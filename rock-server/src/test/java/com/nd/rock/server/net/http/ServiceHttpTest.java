@@ -14,10 +14,10 @@ import org.junit.Test;
 
 import com.nd.rock.common.net.bean.request.CheckSummaryParam;
 import com.nd.rock.common.net.bean.request.GetContentParam;
-import com.nd.rock.common.net.bean.response.ContentResponse;
 import com.nd.rock.common.net.bean.response.FinalCheckSummaryResponse;
 import com.nd.rock.common.net.bean.response.FinalGetContentResponse;
-import com.nd.rock.common.net.bean.response.SummaryResponse;
+import com.nd.rock.common.net.bean.response.base.ContentResponse;
+import com.nd.rock.common.net.bean.response.base.SummaryResponse;
 
 public class ServiceHttpTest extends BaseFunction {
 	
@@ -39,8 +39,8 @@ public class ServiceHttpTest extends BaseFunction {
 
 		GetContentParam getContentParam = new GetContentParam(param);
 		
-		HttpClient httpClient = createHttpClient("localhost", 80, 3*1000, 5*60*1000);
-		PostMethod postMethod = new PostMethod("/rock/api/getContent.do");
+		HttpClient httpClient = getHttpClient();
+		PostMethod postMethod = new PostMethod("/rock/client/getContent.do");
 		postMethod.getParams().setContentCharset("UTF-8");
 		postMethod.setParameter("param", getContentParam.toJSONString());
 		
@@ -95,8 +95,8 @@ public class ServiceHttpTest extends BaseFunction {
 		param.put(GROUP2, map);
 		CheckSummaryParam checkSummaryParam = new CheckSummaryParam(param); 
 
-		HttpClient httpClient = createHttpClient("localhost", 80, 3*1000, 5*60*1000);
-		PostMethod postMethod = new PostMethod("/rock/api/checkSummary.do");
+		HttpClient httpClient = getHttpClient();
+		PostMethod postMethod = new PostMethod("/rock/client/checkSummary.do");
 		postMethod.getParams().setContentCharset("UTF-8");
 		postMethod.setParameter("param", checkSummaryParam.toJSONString());
 		
@@ -124,6 +124,12 @@ public class ServiceHttpTest extends BaseFunction {
 		Assert.assertNotNull(list);
 		Assert.assertEquals(1, list.size());
 		Assert.assertTrue(list.contains("not.exist"));
+	}
+	
+	private HttpClient getHttpClient(){
+		HttpClient httpClient = createHttpClient("localhost", 80, 3*1000, 5*60*1000);
+		//		HttpClient httpClient = createHttpClient("http://192.168.181.65", 80, 3*1000, 5*60*1000);
+		return httpClient;
 	}
 
 }

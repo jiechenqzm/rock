@@ -22,4 +22,8 @@ public interface DataPathFactory {
 	
 	public static final String STATIC = "static";
 	
+	public static final String HOST = "host";
+	
+	public static final String CONFIG = "config";
+	
 }
