@@ -1,4 +1,4 @@
-package com.nd.rock.server.model.container;
+package com.nd.rock.common.model.container;
 
 import static com.nd.rock.common.constants.CommonConstants.CHARACTER_ENCODING_DEFAULT;
 

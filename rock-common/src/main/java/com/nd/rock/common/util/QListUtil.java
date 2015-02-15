@@ -36,4 +36,16 @@ public class QListUtil {
 		}
 		return false;
 	}
+	
+	/**
+	 * 判断list中的每一个元素都不能为null或者empty
+	 * @param list
+	 * @return
+	 */
+	public static boolean notEmptyContent(List<String> list) {
+		boolean result = true;
+		for(String string : list)
+			result = result && QStringUtil.nullOrEmpty(string);
+		return result;
+	}
 }

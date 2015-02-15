@@ -2,9 +2,9 @@ package com.nd.rock.server.controller.service.behavior.impl;
 
 import java.io.IOException;
 
+import com.nd.rock.common.model.container.Container;
 import com.nd.rock.server.controller.service.behavior.GetContentBehavior;
 import com.nd.rock.server.exception.ServiceBehaviorFailException;
-import com.nd.rock.server.model.container.Container;
 
 public class GetFileContentBehavior implements GetContentBehavior {
 

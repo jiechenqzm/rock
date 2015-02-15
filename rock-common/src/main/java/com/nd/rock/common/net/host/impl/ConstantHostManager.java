@@ -6,7 +6,7 @@ import com.nd.rock.common.util.QStringUtil;
 
 public class ConstantHostManager implements HostManager {
 	
-	private static final String ROCK_SERVER_HOST_NAME = "server.rock.nd.com";
+	private static final String ROCK_SERVER_HOST_NAME = "server.rock.middleware.nd.com";
 	
 	private String host = null;;
 	

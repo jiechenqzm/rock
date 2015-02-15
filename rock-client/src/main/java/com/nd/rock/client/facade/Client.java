@@ -29,14 +29,24 @@ public interface Client {
 	public Map<String, String> getContentBatch(String group, List<String> dataIds);
 	
 	/**
-	 * 对指定${分组}下面指定${属性}的数据的指定${内容}设置${观察者}
-	 * 当${内容}发生变化的时候,观察者的update方法被调用,并且传递最新的内容给观察者
+	 * 对指定${分组}下面指定${属性}的数据的指定${初始内容}设置${观察者}
+	 * 当${初始内容}发生变化的时候,观察者的update方法被调用,并且传递最新的内容给观察者
 	 * @param group				${分组}
 	 * @param dataId			${属性}
-	 * @param content			${内容}
+	 * @param initContent		${初始内容}
 	 * @param contentObserver	${观察者}
+	 * @return
 	 */
-	public void registerObserver(String group, String dataId, String content,
+	public boolean registerObserver(String group, String dataId, String initContent,
 			ContentObserver contentObserver);
+	
+	/**
+	 * 移除指定${分组}下面指定${属性}的数据的${观察者}
+	 * @param group				${分组}
+	 * @param dataId			${属性}
+	 * @param contentObserver	${观察者}
+	 * @return
+	 */
+	public boolean removeObserver(String group, String dataId, ContentObserver contentObserver);
 
 }

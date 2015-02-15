@@ -7,15 +7,19 @@ import java.util.Map;
 
 import com.nd.rock.client.facade.Client;
 import com.nd.rock.client.facade.ContentObserver;
-import com.nd.rock.client.operation.GetContentOperation;
+import com.nd.rock.client.operation.ContentOperation;
+import com.nd.rock.client.operation.ObserverOperation;
 import com.nd.rock.client.operation.impl.DefaultGetContentOperation;
+import com.nd.rock.client.operation.impl.ObserverManagerAdapter;
 import com.nd.rock.common.net.bean.request.GetContentParam;
 import com.nd.rock.common.net.bean.response.FinalGetContentResponse;
 
 public class DefaultClient implements Client {
 
-	private GetContentOperation getContentOperation = new DefaultGetContentOperation();
+	private ContentOperation getContentOperation = new DefaultGetContentOperation();
 
+	private ObserverOperation observerOperation = new ObserverManagerAdapter();
+	
 	@Override
 	public String getContent(String group, String dataId) {
 		Map<String, String> resultMap = getContentBatch(group,
@@ -37,10 +41,15 @@ public class DefaultClient implements Client {
 	}
 
 	@Override
-	public void registerObserver(String group, String dataId, String content,
+	public boolean registerObserver(String group, String dataId, String initContent,
 			ContentObserver contentObserver) {
-		// TODO Auto-generated method stub
-
+		return this.observerOperation.registerObserver(group, dataId, initContent, contentObserver);
+	}
+	
+	@Override
+	public boolean removeObserver(String group, String dataId,
+			ContentObserver contentObserver) {
+		return this.observerOperation.removeObserver(group, dataId, contentObserver);
 	}
 
 }

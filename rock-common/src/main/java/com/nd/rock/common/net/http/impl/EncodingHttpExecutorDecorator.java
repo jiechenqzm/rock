@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
 
-import com.nd.rock.common.exception.CharacterEncodingException;
+import com.nd.rock.common.exception.runtime.CharacterEncodingException;
 import com.nd.rock.common.net.http.HttpExecutor;
 
 public class EncodingHttpExecutorDecorator implements HttpExecutor {

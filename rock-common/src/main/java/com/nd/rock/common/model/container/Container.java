@@ -1,4 +1,4 @@
-package com.nd.rock.server.model.container;
+package com.nd.rock.common.model.container;
 
 import java.io.IOException;
 

@@ -2,8 +2,8 @@ package com.nd.rock.server.model.instance;
 
 import java.util.Date;
 
-import com.nd.rock.server.model.summary.MD5Summary;
-import com.nd.rock.server.model.summary.SummaryBehavior;
+import com.nd.rock.common.model.summary.MD5Summary;
+import com.nd.rock.common.model.summary.SummaryBehavior;
 
 public class CoreDataIn {
 

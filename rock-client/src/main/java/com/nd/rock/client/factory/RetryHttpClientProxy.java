@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.httpclient.HttpClient;
 
 import com.nd.rock.client.host.impl.HostManagerWrapper;
+import com.nd.rock.common.exception.ServerUnAvailableException;
 import com.nd.rock.common.file.client.config.ClientHostFactory;
 import com.nd.rock.common.net.host.HostHolder;
 import com.nd.rock.common.net.host.impl.ConstantHostManager;
@@ -15,29 +16,31 @@ import com.nd.rock.common.net.http.HttpClientFactory;
 import com.nd.rock.common.net.http.impl.CachedHttpClientFactoryDecorator;
 import com.nd.rock.common.net.http.impl.ConcurrentHttpClientBuilder;
 import com.nd.rock.common.net.http.impl.DefaultHttpClientFactory;
+import com.nd.rock.common.util.QStringUtil;
 
-public class ClientStaticHostFactory {
+public class RetryHttpClientProxy implements HttpClientProxy {
 
-	private static HttpClientFactory httpClientFactory = null;
+	private HttpClientFactory httpClientFactory = null;
 
-	private static HostManagerWrapper hostManagerWrapper = null;
+	private HostManagerWrapper hostManagerWrapper = null;
 	
-	private static String host = null;
-
-	static {
+	private String host = null;
+	
+	private RetryHttpClientProxy() {}
+	
+	private void init() throws ServerUnAvailableException {
+		this.httpClientFactory = initClientFactory();
 		HostInLocal hostInLocal = initHostInLocal();
 		HostInServer hostInServer = initHostInServer();
 		
-		hostManagerWrapper = initManager(hostInLocal, hostInServer);
-		host = initHost(hostManagerWrapper);
 		
-		updateFlushHost(host, hostInLocal, hostInServer);
+		this.hostManagerWrapper = initManager(hostInLocal, hostInServer);
+		this.host = initHost(this.hostManagerWrapper);
 		
-		httpClientFactory = initClientFactory();
-
+		updateFlushHost(this.host, hostInLocal, hostInServer);
 	}
 
-	private static void updateFlushHost(String host, HostInLocal hostInLocal,
+	private void updateFlushHost(String host, HostInLocal hostInLocal,
 			HostInServer hostInServer) {
 		ConstantHostManager constantHostManager = new ConstantHostManager(host);
 		hostInServer.setHostManager(constantHostManager);
@@ -45,19 +48,24 @@ public class ClientStaticHostFactory {
 		hostInLocal.saveHostList(hostList);
 	}
 
-	private static HostInLocal initHostInLocal() {
+	private HostInLocal initHostInLocal() {
 		return new HostInLocal(new ClientHostFactory());
 	}
 
-	private static HostInServer initHostInServer() {
+	private HostInServer initHostInServer() {
 		return new HostInServer();
 	}
 	
-	private static String initHost(HostManagerWrapper hostManagerWrapper){
-		return hostManagerWrapper.getHost(new HeartBeatCommand());
+	private String initHost(HostManagerWrapper hostManagerWrapper) throws ServerUnAvailableException {
+		String host = hostManagerWrapper.getHost(new HeartBeatCommand());
+		if(QStringUtil.nullOrEmpty(host)) {
+			String message = "Server Not Find Error.";
+			throw new ServerUnAvailableException(message);
+		}
+		return host;
 	}
 
-	private static HostManagerWrapper initManager(HostHolder hostInLocal,
+	private HostManagerWrapper initManager(HostHolder hostInLocal,
 			HostHolder hostInServer) {
 		// hostInLocal和hostInServer采用责任链模式
 		HostManagerWrapper localWrapper = new HostManagerWrapper(hostInLocal);
@@ -66,28 +74,37 @@ public class ClientStaticHostFactory {
 		return localWrapper;
 	}
 
-	private static HttpClientFactory initClientFactory() {
+	private HttpClientFactory initClientFactory() {
 		return new CachedHttpClientFactoryDecorator(
 				new DefaultHttpClientFactory(new ConcurrentHttpClientBuilder()));
 	}
 	
-	private static synchronized void reBuildHost(){
+	private synchronized void reBuildHost() throws ServerUnAvailableException {
 		host = initHost(hostManagerWrapper);
 	}
 
 	/********** 分割线，以上是内部方法，以下是API **********/
 
-	public static HttpClient getHttpClient() {
+	public HttpClient getHttpClient() {
 		return httpClientFactory.getHttpClient(host, 80);
 	}
 
-	public static HttpClient rebuildHttpClient(HttpClient httpClient) {
+	public HttpClient rebuildHttpClient(HttpClient httpClient) throws ServerUnAvailableException {
 		if(httpClient != httpClientFactory.getHttpClient(host, 80))
 			return httpClientFactory.getHttpClient(host, 80);
 		reBuildHost();
 		return getHttpClient();
 		
 	}
-
+	
+	private static RetryHttpClientProxy intance = null;
+	
+	public synchronized static RetryHttpClientProxy getInstance() throws ServerUnAvailableException {
+		if(intance == null) {
+			intance = new RetryHttpClientProxy();
+			intance.init();
+		}
+		return intance;
+	}
 
 }

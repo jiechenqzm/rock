@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.nd.rock.common.model.container.Container;
 import com.nd.rock.server.model.container.impl.SnapshotFileContainer;
 
 public class AbstractFileContainerTest {

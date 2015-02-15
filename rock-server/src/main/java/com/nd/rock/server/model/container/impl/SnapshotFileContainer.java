@@ -4,8 +4,8 @@ import java.io.File;
 
 import com.nd.rock.common.file.DataPathFactory;
 import com.nd.rock.common.file.server.data.ServerSnapshotFactory;
+import com.nd.rock.common.model.container.AbstractFileContainer;
 import com.nd.rock.common.util.QFileUtil;
-import com.nd.rock.server.model.container.AbstractFileContainer;
 
 public class SnapshotFileContainer extends AbstractFileContainer {
 	

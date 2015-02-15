@@ -11,15 +11,15 @@ public class NamedThreadFactory implements ThreadFactory {
 
 	public NamedThreadFactory(String threadType) {
 		SecurityManager s = System.getSecurityManager();
-		group = (s != null) ? s.getThreadGroup() : Thread.currentThread()
+		this.group = (s != null) ? s.getThreadGroup() : Thread.currentThread()
 				.getThreadGroup();
-		namePrefix = threadType + "-TASK-";
+		this.namePrefix = threadType + "-TASK-";
 	}
 
 	@Override
 	public Thread newThread(Runnable runnable) {
-		Thread thread = new Thread(group, runnable, namePrefix
-				+ threadNumber.getAndIncrement(), 0);
+		Thread thread = new Thread(this.group, runnable, namePrefix
+				+ this.threadNumber.getAndIncrement(), 0);
 		if (thread.isDaemon())
 			thread.setDaemon(false);
 		if (thread.getPriority() != Thread.NORM_PRIORITY)

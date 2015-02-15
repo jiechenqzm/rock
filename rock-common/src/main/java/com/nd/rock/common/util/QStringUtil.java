@@ -3,13 +3,22 @@ package com.nd.rock.common.util;
 public class QStringUtil {
 	
 	/**
+	 * 判断string是否为null
+	 * @param string
+	 * @return
+	 */
+	public static boolean isNull(String string) {
+		return string == null;
+	}
+	
+	/**
 	 * 判断string是否为null或者为空字符串
 	 * 
 	 * @param string
 	 * @return
 	 */
 	public static boolean nullOrEmpty(String string) {
-		return string == null ? true : string.trim().isEmpty();
+		return isNull(string) ? true : string.trim().isEmpty();
 	}
 	
 	/**
@@ -21,7 +30,7 @@ public class QStringUtil {
 	public static boolean notEmpty(String... strings) {
 		boolean result = true;
 		for(String string : strings) {
-			result = result && nullOrEmpty(string);
+			result = result && !nullOrEmpty(string);
 		}
 		return result;
 	}

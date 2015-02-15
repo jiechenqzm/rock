@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.nd.rock.server.model.container.Container;
+import com.nd.rock.common.model.container.Container;
 
 public class SummaryContainer implements Container {
 
@@ -24,25 +24,32 @@ public class SummaryContainer implements Container {
 	@Override
 	public boolean update(String group, String dataId, String content)
 			throws IOException {
-		ConcurrentHashMap<String, String> groupMap = this.summaryMap.get(group);
-		if(groupMap == null){
-			groupMap = new ConcurrentHashMap<String, String>();
-			ConcurrentHashMap<String, String> innerMap = this.summaryMap.putIfAbsent(group, groupMap);
-			groupMap = innerMap == null ? groupMap : innerMap;
-		}
+		ConcurrentHashMap<String, String> groupMap = getGroupMap(group);
 		groupMap.put(dataId, content);
 		return true;
 	}
 
 	@Override
 	public boolean delete(String group, String dataId) throws IOException {
-		return update(group, dataId, null);
+		ConcurrentHashMap<String, String> groupMap = getGroupMap(group);
+		groupMap.remove(dataId);
+		return true;
 	}
 
 	@Override
 	public boolean clear() throws IOException {
 		this.summaryMap.clear();
 		return true;
+	}
+	
+	private ConcurrentHashMap<String, String> getGroupMap(String group) {
+		ConcurrentHashMap<String, String> result = this.summaryMap.get(group);
+		if(result == null){
+			result = new ConcurrentHashMap<String, String>();
+			ConcurrentHashMap<String, String> innerMap = this.summaryMap.putIfAbsent(group, result);
+			result = innerMap == null ? result : innerMap;
+		}
+		return result;
 	}
 
 }

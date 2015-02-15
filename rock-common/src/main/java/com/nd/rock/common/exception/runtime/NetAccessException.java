@@ -1,4 +1,4 @@
-package com.nd.rock.common.exception;
+package com.nd.rock.common.exception.runtime;
 
 public class NetAccessException extends RuntimeException {
 

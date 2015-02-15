@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
-import com.nd.rock.common.exception.FileAccessException;
+import com.nd.rock.common.exception.runtime.FileAccessException;
 
 public class QFileUtil {
 

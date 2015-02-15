@@ -1,4 +1,4 @@
-package com.nd.rock.server.model.summary;
+package com.nd.rock.common.model.summary;
 
 public interface SummaryBehavior {
 	

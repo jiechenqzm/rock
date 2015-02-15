@@ -9,7 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.nd.rock.common.exception.FileAccessException;
+import com.nd.rock.common.exception.runtime.FileAccessException;
 import com.nd.rock.common.file.DataPathFactory;
 import com.nd.rock.common.net.host.HostHolder;
 import com.nd.rock.common.util.QFileUtil;

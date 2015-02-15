@@ -35,10 +35,17 @@ public class LogClientDecorator extends AbstractClientDecorator {
 	}
 
 	@Override
-	public void registerObserver(String group, String dataId, String content,
+	public boolean registerObserver(String group, String dataId, String initContent,
 			ContentObserver contentObserver) {
-		logger.info("Start AddObserver, Group >> " + group + " ## dataId >> " + dataId + " ## content >> " + content);
-		super.client.registerObserver(group, dataId, content, contentObserver);
+		logger.info("Start AddObserver, Group >> " + group + " ## dataId >> " + dataId + " ## initContent >> " + initContent);
+		return super.client.registerObserver(group, dataId, initContent, contentObserver);
+	}
+	
+	@Override
+	public boolean removeObserver(String group, String dataId,
+			ContentObserver contentObserver) {
+		logger.info("Start RemoveObserver, Group >> " + group + " ## dataId >> " + dataId);
+		return super.client.removeObserver(group, dataId, contentObserver);
 	}
 
 }

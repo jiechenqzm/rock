@@ -9,7 +9,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.PostMethod;
 
-import com.nd.rock.common.exception.NetAccessException;
+import com.nd.rock.common.exception.runtime.NetAccessException;
 import com.nd.rock.common.net.http.HttpExecutor;
 
 public class DefaultHttpExecutor implements HttpExecutor {

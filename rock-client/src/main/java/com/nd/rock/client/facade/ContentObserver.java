@@ -8,6 +8,6 @@ public interface ContentObserver {
 	 * 具体参见@com.nd.rock.client.facade.Client
 	 * @param content
 	 */
-	public void update(String content);
+	public void update(String newContent);
 
 }
